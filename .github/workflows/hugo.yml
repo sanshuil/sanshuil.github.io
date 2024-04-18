@@ -23,7 +23,9 @@ jobs:
 
     - name: Build and Deploy
       run: |
-        hugo -F --cleanDestinationDir  # 生成静态文件
+      curl -L -o hugow https://github.com/zerofancy/hugo_encryptor_kt/releases/latest/download/hugow
+      chmod +x hugow
+      ./hugow -F --cleanDestinationDir  # 生成静态文件
         mkdir -p public  # 确保public文件夹存在
         cp -r public/* ./  # 复制生成的静态文件到仓库根目录
 
