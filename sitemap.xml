@@ -5,6 +5,9 @@
     <loc>https://example.org/</loc>
     <lastmod>2024-04-18T15:51:13+08:00</lastmod>
   </url><url>
+    <loc>https://example.org/%E5%8A%A0%E5%AF%86/</loc>
+    <lastmod>2024-04-18T15:51:13+08:00</lastmod>
+  </url><url>
     <loc>https://example.org/categories/</loc>
   </url><url>
     <loc>https://example.org/tags/</loc>
