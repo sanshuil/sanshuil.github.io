@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>MuShui&#39;s Blog</title>
-    <link>https://sanmul.github.io/</link>
+    <link>https://sanshuil.github.io/</link>
     <description>Recent content on MuShui&#39;s Blog</description>
     <generator>Hugo -- 0.125.1</generator>
     <language>zh-cn</language>
     <lastBuildDate>Fri, 19 Apr 2024 10:24:07 +0800</lastBuildDate>
-    <atom:link href="https://sanmul.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://sanshuil.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HttpClient踩坑</title>
-      <link>https://sanmul.github.io/posts/httpclient%E8%B8%A9%E5%9D%91/</link>
+      <link>https://sanshuil.github.io/posts/httpclient%E8%B8%A9%E5%9D%91/</link>
       <pubDate>Fri, 19 Apr 2024 10:24:07 +0800</pubDate>
-      <guid>https://sanmul.github.io/posts/httpclient%E8%B8%A9%E5%9D%91/</guid>
+      <guid>https://sanshuil.github.io/posts/httpclient%E8%B8%A9%E5%9D%91/</guid>
       <description>apache httpClent 使用时出现异常 Caused by: org.apache.http.conn.ConnectionPoolTimeoutException: Timeout waiting for connection from pool at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.leaseConnection(PoolingHttpClientConnectionManager.java:316) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.conn.PoolingHttpClientConnectionManager$1.get(PoolingHttpClientConnectionManager.java:282) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:190) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:108) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.kyuubi.plugin.DscAuthPlugin$.doDscAuth(DscAuthPlugin.scala:78) ~[kyuubi-server_2.12-1.6.1-incubating.jar:1.6.1-incubating] ... 24 more httpClient的创建时候使用默认的PoolingHttpClientConnectionManager
 private val httpClient = HttpClientBuilder.create().setDefaultRequestConfig(requestConfig).build() org.apache.http.impl.conn.PoolingHttpClientConnectionManager#setDefaultMaxPerRoute //default value 2 org.apache.http.impl.conn.PoolingHttpClientConnectionManager#getMaxPerRoute PoolingHttpClientConnectionManager的配置中有两个最大连接数量，分别控制着总的最大连接数量和每个route的最大连接数量，最大路由连接数MaxPerRoute默认为2，总连接数量MaxTotal默认为20。每次新来一个请求，如果连接池中已经存在相同route并且可用的connection，连接池就会直接复用这个connection，当不存在route相同的connection，就会新建一个connection为之服务；如果连接池已满，则请求会等待直到被服务或者超时。每次读取response会释放connection
 消费resp，此时会close，release conn
