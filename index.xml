@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>Posts on MuShui&#39;s Blog</title>
-    <link>https://sanmul.github.io/en/posts/</link>
-    <description>Recent content in Posts on MuShui&#39;s Blog</description>
+    <title>MuShui&#39;s Blog</title>
+    <link>https://sanmul.github.io/</link>
+    <description>Recent content on MuShui&#39;s Blog</description>
     <generator>Hugo -- 0.125.1</generator>
     <language>zh-cn</language>
     <lastBuildDate>Fri, 19 Apr 2024 10:24:07 +0800</lastBuildDate>
-    <atom:link href="https://sanmul.github.io/en/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://sanmul.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HttpClient踩坑</title>
-      <link>https://sanmul.github.io/en/posts/httpclient%E8%B8%A9%E5%9D%91/</link>
+      <link>https://sanmul.github.io/posts/httpclient%E8%B8%A9%E5%9D%91/</link>
       <pubDate>Fri, 19 Apr 2024 10:24:07 +0800</pubDate>
-      <guid>https://sanmul.github.io/en/posts/httpclient%E8%B8%A9%E5%9D%91/</guid>
+      <guid>https://sanmul.github.io/posts/httpclient%E8%B8%A9%E5%9D%91/</guid>
       <description>apache httpClent 使用时出现异常 1 2 3 4 5 6 7 8 9 10 11 12 Caused by: org.apache.http.conn.ConnectionPoolTimeoutException: Timeout waiting for connection from pool at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.leaseConnection(PoolingHttpClientConnectionManager.java:316) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.conn.PoolingHttpClientConnectionManager$1.get(PoolingHttpClientConnectionManager.java:282) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:190) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:108) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.kyuubi.plugin.DscAuthPlugin$.doDscAuth(DscAuthPlugin.scala:78) ~[kyuubi-server_2.12-1.6.1-incubating.jar:1.6.1-incubating] ... 24 more httpCli</description>
     </item>
   </channel>
