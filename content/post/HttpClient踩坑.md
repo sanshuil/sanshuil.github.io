@@ -1,8 +1,10 @@
-+++
-title = 'HttpClient踩坑'
-date = 2024-04-19T10:24:07+08:00
-draft = false
-+++
+---
+title: 'HttpClient踩坑'
+date: 2024-04-19T10:24:07+08:00
+draft: false
+tags: ["java"]
+categories: ["java"]
+---
 
 ### apache httpClent 使用时出现异常
 

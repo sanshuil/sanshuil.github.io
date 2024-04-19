@@ -1,0 +1,29 @@
+baseURL: https://sanshuil.github.io/
+languageCode: zh-cn # en-us
+title: MuShui's Blog
+theme: hugo-theme-stack # 主题名字，和themes文件夹下的一致
+
+enableInlineShortcodes: true
+enableEmoji: true # 允许使用 Emoji 表情，建议 true
+enableRobotsTXT: true # 允许爬虫抓取到搜索引擎，建议 true
+
+hasCJKLanguage: true # 自动检测是否包含 中文日文韩文 如果文章中使用了很多中文引号的话可以开启
+
+paginate: 10    # 首页每页显示的文章数
+
+params:
+  comments:
+    enabled: true
+    provider: giscus
+    giscus:
+      repo: sanshuil/sanshuil.github.io
+      repoID: R_kgDOLvxEaw
+      category: Announcements
+      categoryID: DIC_kwDOLvxEa84Ce3mV
+      mapping: pathname
+      lightTheme: light
+      darkTheme: dark
+      reactionsEnabled: 1
+      emitMetadata: 0
+      inputPosition: bottom
+      lang: zh-CN
