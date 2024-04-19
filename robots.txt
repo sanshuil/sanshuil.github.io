@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://sanmul.github.io/sitemap.xml

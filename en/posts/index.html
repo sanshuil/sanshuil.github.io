@@ -5,21 +5,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
-<title>Categories | mushui</title>
+<title>Posts | MuShui&#39;s Blog</title>
 <meta name="keywords" content="">
-<meta name="description" content="">
-<meta name="author" content="">
-<link rel="canonical" href="https://sanshuil.github.io/categories/">
+<meta name="description" content="Posts - MuShui&#39;s Blog">
+<meta name="author" content="lsm">
+<link rel="canonical" href="https://sanmul.github.io/en/posts/">
 <link crossorigin="anonymous" href="/assets/css/stylesheet.b609c58d5c11bb90b1a54e04005d74ad1ddf22165eb79f5533967e57df9c3b50.css" integrity="sha256-tgnFjVwRu5CxpU4EAF10rR3fIhZet59VM5Z&#43;V9&#43;cO1A=" rel="preload stylesheet" as="style">
-<link rel="icon" href="https://sanshuil.github.io/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="https://sanshuil.github.io/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://sanshuil.github.io/favicon-32x32.png">
-<link rel="apple-touch-icon" href="https://sanshuil.github.io/apple-touch-icon.png">
-<link rel="mask-icon" href="https://sanshuil.github.io/safari-pinned-tab.svg">
+<link rel="icon" href="https://sanmul.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://sanmul.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://sanmul.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://sanmul.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://sanmul.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="https://sanshuil.github.io/categories/index.xml">
-<link rel="alternate" hreflang="en" href="https://sanshuil.github.io/categories/">
+<link rel="alternate" type="application/rss+xml" href="https://sanmul.github.io/en/posts/index.xml">
+<link rel="alternate" hreflang="en" href="https://sanmul.github.io/en/posts/">
 <noscript>
     <style>
         #theme-toggle,
@@ -59,15 +59,30 @@
 </noscript>
   
 
-<meta property="og:title" content="Categories" />
+<meta property="og:title" content="Posts" />
 <meta property="og:description" content="" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://sanshuil.github.io/categories/" />
+<meta property="og:url" content="https://sanmul.github.io/en/posts/" />
 
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Categories"/>
+<meta name="twitter:title" content="Posts"/>
 <meta name="twitter:description" content=""/>
 
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://sanmul.github.io/en/posts/"
+    }
+  ]
+}
+</script>
 </head>
 
 <body class="list" id="top">
@@ -85,7 +100,9 @@
 <header class="header">
     <nav class="nav">
         <div class="logo">
-            <a href="https://sanshuil.github.io/" accesskey="h" title="mushui (Alt + H)">mushui</a>
+            <a href="https://sanmul.github.io/en/" accesskey="h" title="MuShui&#39;s Blog (Alt + H)">
+                <img src="https://sanmul.github.io/f" alt="" aria-label="logo"
+                    height="35">MuShui&#39;s Blog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" accesskey="t" title="(Alt + T)">
                     <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
@@ -113,17 +130,28 @@
         </ul>
     </nav>
 </header>
-<main class="main">
-<header class="page-header">
-    <h1>Categories</h1>
+<main class="main"> 
+<header class="page-header"><div class="breadcrumbs"><a href="https://sanmul.github.io/en/">Home</a></div>
+  <h1>
+    Posts
+  </h1>
 </header>
 
-<ul class="terms-tags">
-</ul>
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">HttpClient踩坑
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>apache httpClent 使用时出现异常 1 2 3 4 5 6 7 8 9 10 11 12 Caused by: org.apache.http.conn.ConnectionPoolTimeoutException: Timeout waiting for connection from pool at org.apache.http.impl.conn.PoolingHttpClientConnectionManager.leaseConnection(PoolingHttpClientConnectionManager.java:316) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.conn.PoolingHttpClientConnectionManager$1.get(PoolingHttpClientConnectionManager.java:282) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:190) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:108) ~[httpclient-4.5.13.jar:4.5.13] at org.apache.kyuubi.plugin.DscAuthPlugin$.doDscAuth(DscAuthPlugin.scala:78) ~[kyuubi-server_2.12-1.6.1-incubating.jar:1.6.1-incubating] ... 24 more httpCli...</p>
+  </div>
+  <footer class="entry-footer"><span title='2024-04-19 10:24:07 +0800 +0800'>2024-04-19</span>&nbsp;·&nbsp;2 min&nbsp;·&nbsp;lsm</footer>
+  <a class="entry-link" aria-label="post link to HttpClient踩坑" href="https://sanmul.github.io/en/posts/httpclient%E8%B8%A9%E5%9D%91/"></a>
+</article>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2024 <a href="https://sanshuil.github.io/">mushui</a></span> · 
+        <span>&copy; 2024 <a href="https://sanmul.github.io/en/">MuShui&#39;s Blog</a></span> · 
 
     <span>
         Powered by
