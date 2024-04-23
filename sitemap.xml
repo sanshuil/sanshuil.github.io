@@ -2,7 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://sanshuil.github.io/categories/</loc>
+    <lastmod>2024-04-19T10:24:07+08:00</lastmod>
+  </url><url>
     <loc>https://sanshuil.github.io/post/httpclient%E8%B8%A9%E5%9D%91/</loc>
+    <lastmod>2024-04-19T10:24:07+08:00</lastmod>
+  </url><url>
+    <loc>https://sanshuil.github.io/categories/java/</loc>
     <lastmod>2024-04-19T10:24:07+08:00</lastmod>
   </url><url>
     <loc>https://sanshuil.github.io/</loc>
@@ -11,7 +17,17 @@
     <loc>https://sanshuil.github.io/post/</loc>
     <lastmod>2024-04-19T10:24:07+08:00</lastmod>
   </url><url>
-    <loc>https://sanshuil.github.io/categories/</loc>
+    <loc>https://sanshuil.github.io/page/archives/</loc>
+  </url><url>
+    <loc>https://sanshuil.github.io/tags/java/</loc>
+  </url><url>
+    <loc>https://sanshuil.github.io/page/links/</loc>
+  </url><url>
+    <loc>https://sanshuil.github.io/page/about/</loc>
+  </url><url>
+    <loc>https://sanshuil.github.io/page/</loc>
+  </url><url>
+    <loc>https://sanshuil.github.io/page/search/</loc>
   </url><url>
     <loc>https://sanshuil.github.io/tags/</loc>
   </url>
