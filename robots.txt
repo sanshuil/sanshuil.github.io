@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://sanshuil.github.io/sitemap.xml
