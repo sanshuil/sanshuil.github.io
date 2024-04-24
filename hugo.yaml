@@ -11,7 +11,17 @@ hasCJKLanguage: true # 自动检测是否包含 中文日文韩文 如果文章�
 
 paginate: 10    # 首页每页显示的文章数
 
+googleAnalytics: G-8C0DQDNSWV
+
 params:
+  sidebar:
+    compact: false
+    emoji: 🍥
+    subtitle: YOU ONLY LOOK ONCE
+    avatar:
+      enabled: true
+      local: true
+      src: /img/avatar.jpg
   comments:
     enabled: true
     provider: giscus

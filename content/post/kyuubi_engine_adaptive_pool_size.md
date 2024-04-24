@@ -33,8 +33,7 @@ tags: ["kyuubi"]
 
 ### 根据负载来选择engine
 
-{{% hugo-encryptor "PASSWORD" %}}
-
-https://github.com/apache/kyuubi/pull/5662
-
-{{% /hugo-encryptor %}}
+针对spark engine， 可以收集到spark engine 当前的task数和opensession数。
+1. 首先，spark engine 定时将task、session输出到zk上
+2. kyuubi server选择engine时，从zk上获取engine的task数和session数，然后根据负载选择engine 
+3. 设置session阈值，当session数超过阈值时，创建新的engine
