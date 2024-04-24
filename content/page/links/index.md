@@ -8,7 +8,7 @@ links:
   - title: Kyuubi
     description: Serverless SQL on Lakehouse
     website: https://kyuubi.apache.org
-    image: https://kyuubi.apache.org/kyuubi_logo_hd.png
+    image: Kyuubi.png
 menu:
     main: 
         weight: -50
