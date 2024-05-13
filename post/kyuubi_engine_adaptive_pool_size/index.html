@@ -276,9 +276,7 @@
     <section class="article-content">
     
     
-    <h3 id="kyuubi-engine-pool-select-policy">
-    <a href="#kyuubi-engine-pool-select-policy" class="header-anchor">#</a>
-    kyuubi engine pool select policy
+    <h3 id="kyuubi-engine-pool-select-policy">kyuubi engine pool select policy
 </h3><p>目前有两种策略<code>random</code> 和 <code>poll</code> 策略</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-scala" data-lang="scala"><span style="display:flex;"><span>  <span style="color:#66d9ef">val</span> <span style="color:#a6e22e">ENGINE_POOL_SELECT_POLICY</span><span style="color:#66d9ef">:</span> <span style="color:#66d9ef">ConfigEntry</span><span style="color:#f92672">[</span><span style="color:#66d9ef">String</span><span style="color:#f92672">]</span> <span style="color:#66d9ef">=</span>
 </span></span><span style="display:flex;"><span>    buildConf<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;kyuubi.engine.pool.selectPolicy&#34;</span><span style="color:#f92672">)</span>
@@ -292,9 +290,7 @@
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">.</span>transformToUpperCase
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">.</span>checkValues<span style="color:#f92672">(</span><span style="color:#a6e22e">Set</span><span style="color:#f92672">(</span><span style="color:#e6db74">&#34;RANDOM&#34;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#34;POLLING&#34;</span><span style="color:#f92672">))</span>
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">.</span>createWithDefault<span style="color:#f92672">(</span><span style="color:#e6db74">&#34;RANDOM&#34;</span><span style="color:#f92672">)</span>
-</span></span></code></pre></div><h3 id="根据负载来选择engine">
-    <a href="#%e6%a0%b9%e6%8d%ae%e8%b4%9f%e8%bd%bd%e6%9d%a5%e9%80%89%e6%8b%a9engine" class="header-anchor">#</a>
-    根据负载来选择engine
+</span></span></code></pre></div><h3 id="根据负载来选择engine">根据负载来选择engine
 </h3><p>针对spark engine， 可以收集到spark engine 当前的task数和opensession数。</p>
 <ol>
 <li>首先，spark engine 定时将task、session输出到zk上</li>

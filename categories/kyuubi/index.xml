@@ -12,9 +12,7 @@
         <pubDate>Wed, 24 Apr 2024 10:36:45 +0800</pubDate>
         
         <guid>https://sanshuil.github.io/post/kyuubi_engine_adaptive_pool_size/</guid>
-        <description>&lt;h3 id=&#34;kyuubi-engine-pool-select-policy&#34;&gt;
-    &lt;a href=&#34;#kyuubi-engine-pool-select-policy&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
-    kyuubi engine pool select policy
+        <description>&lt;h3 id=&#34;kyuubi-engine-pool-select-policy&#34;&gt;kyuubi engine pool select policy
 &lt;/h3&gt;&lt;p&gt;目前有两种策略&lt;code&gt;random&lt;/code&gt; 和 &lt;code&gt;poll&lt;/code&gt; 策略&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ENGINE_POOL_SELECT_POLICY&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ConfigEntry&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;String&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    buildConf&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;kyuubi.engine.pool.selectPolicy&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
@@ -28,9 +26,7 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;transformToUpperCase
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;checkValues&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Set&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;RANDOM&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;POLLING&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;))&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;createWithDefault&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;RANDOM&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;根据负载来选择engine&#34;&gt;
-    &lt;a href=&#34;#%e6%a0%b9%e6%8d%ae%e8%b4%9f%e8%bd%bd%e6%9d%a5%e9%80%89%e6%8b%a9engine&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
-    根据负载来选择engine
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;根据负载来选择engine&#34;&gt;根据负载来选择engine
 &lt;/h3&gt;&lt;p&gt;针对spark engine， 可以收集到spark engine 当前的task数和opensession数。&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;首先，spark engine 定时将task、session输出到zk上&lt;/li&gt;
