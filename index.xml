@@ -6,7 +6,97 @@
         <description>Recent content on MuShui&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 24 Apr 2024 10:36:45 +0800</lastBuildDate><atom:link href="https://sanshuil.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 13 May 2024 11:38:55 +0800</lastBuildDate><atom:link href="https://sanshuil.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Scala iter continually</title>
+        <link>https://sanshuil.github.io/post/scala-iter-continually/</link>
+        <pubDate>Mon, 13 May 2024 11:38:55 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/post/scala-iter-continually/</guid>
+        <description>&lt;img src="https://sanshuil.github.io/cover.png" alt="Featured image of post Scala iter continually" /&gt;&lt;h3 id=&#34;scala-iter-continually-介绍&#34;&gt;
+    &lt;a href=&#34;#scala-iter-continually-%e4%bb%8b%e7%bb%8d&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    scala iter continually 介绍
+&lt;/h3&gt;&lt;p&gt;在 Scala 中，可以使用Iterator.continually方法来创建一个持续生成元素的迭代器。如果需要对第一个元素进行特殊处理，可以使用zipWithIndex方法来获取元素的索引，并根据索引来判断是否为第一个元素。&lt;/p&gt;
+&lt;p&gt;下面是一个示例代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; iterator &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Iterator&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;continually&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;元素&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;zipWithIndex&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;map &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;element&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; index&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;index &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 对第一个元素进行特殊处理
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 返回处理后的结果
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 对其他元素进行正常处理
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 返回处理后的结果
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在上面的代码中，Iterator.continually(&amp;ldquo;元素&amp;rdquo;)会创建一个不断重复生成字符串 &amp;ldquo;元素&amp;rdquo; 的迭代器。然后使用zipWithIndex方法获取元素的索引，并根据索引来判断是否为第一个元素。如果是第一个元素，则进行特殊处理；否则进行正常处理。&lt;/p&gt;
+&lt;p&gt;你可以根据具体的需求来修改特殊处理和正常处理的逻辑，并在代码中替换注释部分的代码。&lt;/p&gt;
+&lt;h2 id=&#34;附录&#34;&gt;
+    &lt;a href=&#34;#%e9%99%84%e5%bd%95&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    附录
+&lt;/h2&gt;&lt;h3 id=&#34;参考文献&#34;&gt;
+    &lt;a href=&#34;#%e5%8f%82%e8%80%83%e6%96%87%e7%8c%ae&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    参考文献
+&lt;/h3&gt;
+
+
+
+&lt;div class=&#34;hugo-encryptor-container&#34;&gt;
+  &lt;div class=&#34;hugo-encryptor-prompt&#34;&gt;
+    
+      &lt;p&gt;文章的部分内容被密码保护：&lt;/p&gt;
+    
+  &lt;/div&gt;
+  &lt;div class=&#34;hugo-encryptor-form&#34;&gt;
+    &lt;input
+      class=&#34;hugo-encryptor-input&#34;
+      placeholder=&#39;请输入密码&#39;
+    /&gt;
+    &lt;input
+      class=&#34;hugo-encryptor-button&#34;
+      type=&#34;button&#34;
+      value=&#39;点击验证&#39;
+      onclick=&#34;_click_handler(this)&#34;
+    /&gt;
+  &lt;/div&gt;
+  &lt;div
+    class=&#34;hugo-encryptor-cipher-text&#34;
+    data-password=&#34;PASSWORD&#34;
+    style=&#34;display: none;&#34;
+  &gt;
+    &lt;span style=&#34;display: none;&#34;&gt;--- DON&#39;T MODIFY THIS LINE ---&lt;/span&gt;
+    &lt;p&gt;这里是加密段落。&lt;/p&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+
+</description>
+        </item>
+        <item>
+        <title>G1 GC 介绍</title>
+        <link>https://sanshuil.github.io/post/g1-gc%E4%BB%8B%E7%BB%8D/</link>
+        <pubDate>Mon, 29 Apr 2024 11:37:57 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/post/g1-gc%E4%BB%8B%E7%BB%8D/</guid>
+        <description>&lt;ol&gt;
+&lt;li&gt;
+&lt;h3 id=&#34;概述&#34;&gt;
+    &lt;a href=&#34;#%e6%a6%82%e8%bf%b0&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    概述
+&lt;/h3&gt;G1垃圾回收器是在Java7 update 4之后引入的一个新的垃圾回收器。同优秀的CMS垃圾回收器一样，G1也是关注最小时延的垃圾回收器，也同样适合大尺寸堆内存的垃圾收集，官方在ZGC还没有出现时也推荐使用G1来代替选择CMS。
+&lt;ul&gt;
+&lt;li&gt;G1垃圾回收器是compacting的，因此其回收得到的空间是连续的。这避免了CMS回收器因为不连续空间所造成的问题。如需要更大的堆空间，更多的floating garbage。连续空间意味着G1垃圾回收器可以不必采用空闲链表的内存分配方式，而可以直接采用bump-the-pointer的方式；&lt;/li&gt;
+&lt;li&gt;G1回收器的内存与CMS回收器要求的内存模型有极大的不同。G1将内存划分一个个固定大小的region，每个region可以是年轻代、老年代的一个。内存的回收是以region作为基本单位的；&lt;/li&gt;
+&lt;li&gt;G1还有一个及其重要的特性：软实时（soft real-time）。所谓的实时垃圾回收，是指在要求的时间内完成垃圾回收。“软实时”则是指，用户可以指定垃圾回收时间的限时，G1会努力在这个时限内完成垃圾回收，但是G1并不担保每次都能在这个时限内完成垃圾回收。通过设定一个合理的目标，可以让达到90%以上的垃圾回收时间都在这个时限内。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;附录&#34;&gt;
+    &lt;a href=&#34;#%e9%99%84%e5%bd%95&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    附录
+&lt;/h2&gt;&lt;h3 id=&#34;参考文献&#34;&gt;
+    &lt;a href=&#34;#%e5%8f%82%e8%80%83%e6%96%87%e7%8c%ae&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
+    参考文献
+&lt;/h3&gt;</description>
+        </item>
+        <item>
         <title>Kyuubi_engine_adaptive_pool_size</title>
         <link>https://sanshuil.github.io/post/kyuubi_engine_adaptive_pool_size/</link>
         <pubDate>Wed, 24 Apr 2024 10:36:45 +0800</pubDate>
@@ -31,7 +121,13 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;根据负载来选择engine&#34;&gt;
     &lt;a href=&#34;#%e6%a0%b9%e6%8d%ae%e8%b4%9f%e8%bd%bd%e6%9d%a5%e9%80%89%e6%8b%a9engine&#34; class=&#34;header-anchor&#34;&gt;#&lt;/a&gt;
     根据负载来选择engine
-&lt;/h3&gt;</description>
+&lt;/h3&gt;&lt;p&gt;针对spark engine， 可以收集到spark engine 当前的task数和opensession数。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先，spark engine 定时将task、session输出到zk上&lt;/li&gt;
+&lt;li&gt;kyuubi server选择engine时，从zk上获取engine的task数和session数，然后根据负载选择engine&lt;/li&gt;
+&lt;li&gt;设置session阈值，当session数超过阈值时，创建新的engine&lt;/li&gt;
+&lt;/ol&gt;
+</description>
         </item>
         <item>
         <title>HttpClient踩坑</title>

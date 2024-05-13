@@ -295,7 +295,13 @@
 </span></span></code></pre></div><h3 id="根据负载来选择engine">
     <a href="#%e6%a0%b9%e6%8d%ae%e8%b4%9f%e8%bd%bd%e6%9d%a5%e9%80%89%e6%8b%a9engine" class="header-anchor">#</a>
     根据负载来选择engine
-</h3>
+</h3><p>针对spark engine， 可以收集到spark engine 当前的task数和opensession数。</p>
+<ol>
+<li>首先，spark engine 定时将task、session输出到zk上</li>
+<li>kyuubi server选择engine时，从zk上获取engine的task数和session数，然后根据负载选择engine</li>
+<li>设置session阈值，当session数超过阈值时，创建新的engine</li>
+</ol>
+
 </section>
 
 

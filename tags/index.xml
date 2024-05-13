@@ -6,7 +6,15 @@
         <description>Recent content in Tags on MuShui&#39;s Blog</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Wed, 24 Apr 2024 10:36:45 +0800</lastBuildDate><atom:link href="https://sanshuil.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 13 May 2024 11:38:55 +0800</lastBuildDate><atom:link href="https://sanshuil.github.io/tags/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Scala</title>
+        <link>https://sanshuil.github.io/tags/scala/</link>
+        <pubDate>Mon, 13 May 2024 11:38:55 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/tags/scala/</guid>
+        <description></description>
+        </item>
+        <item>
         <title>Kyuubi</title>
         <link>https://sanshuil.github.io/tags/kyuubi/</link>
         <pubDate>Wed, 24 Apr 2024 10:36:45 +0800</pubDate>
