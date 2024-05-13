@@ -16,9 +16,3 @@ tags: [""]
 ## 附录
 
 ### 参考文献
-
-{{% hugo-encryptor "PASSWORD" %}}
-
-这里是加密段落。
-
-{{% /hugo-encryptor %}}

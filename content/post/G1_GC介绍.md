@@ -8,7 +8,7 @@ image:
 math: 
 license: 
 hidden: false
-draft: false 
+draft: true 
 categories: ["java"]
 tags: ["java"]
 ---
