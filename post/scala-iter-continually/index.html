@@ -315,10 +315,12 @@
 </span></span><span style="display:flex;"><span>  <span style="color:#75715e">//executeStatement increment mode
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>   <span style="color:#66d9ef">val</span> resultSet <span style="color:#66d9ef">=</span> trinoStatement<span style="color:#f92672">.</span>execute<span style="color:#f92672">()</span>
 </span></span><span style="display:flex;"><span>   iter <span style="color:#66d9ef">=</span> <span style="color:#a6e22e">FetchIterator</span><span style="color:#f92672">.</span>fromIterator<span style="color:#f92672">(</span>resultSet<span style="color:#f92672">)</span>
-</span></span></code></pre></div><p>使用Iterator.continually方法来创建一个持续获取data的过程，在<code>increment mode</code>时会流式的拉取数据。</p>
+</span></span></code></pre></div><p>使用Iterator.continually方法来创建一个持续获取data的过程，在<code>increment mode</code>时会流式的拉取数据。takeWhile方法会一直获取数据，直到获取到_.1 为false为止。</p>
+<p>显式调用hasNext，会阻塞，直到trino client sql语句执行完成。client 可以获取到更多runing info</p>
 <h2 id="附录">附录
-</h2><h3 id="参考文献">参考文献
-</h3>
+</h2><p><a class="link" href="https://github.com/apache/kyuubi/pull/6387"  target="_blank" rel="noopener"
+    >[TRINO] Trino engine improve operation log</a></p>
+
 </section>
 
 

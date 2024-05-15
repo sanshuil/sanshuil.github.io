@@ -55,10 +55,12 @@
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//executeStatement increment mode
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; resultSet &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; trinoStatement&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;execute&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   iter &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;FetchIterator&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;fromIterator&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;resultSet&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
-&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用Iterator.continually方法来创建一个持续获取data的过程，在&lt;code&gt;increment mode&lt;/code&gt;时会流式的拉取数据。&lt;/p&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用Iterator.continually方法来创建一个持续获取data的过程，在&lt;code&gt;increment mode&lt;/code&gt;时会流式的拉取数据。takeWhile方法会一直获取数据，直到获取到_.1 为false为止。&lt;/p&gt;
+&lt;p&gt;显式调用hasNext，会阻塞，直到trino client sql语句执行完成。client 可以获取到更多runing info&lt;/p&gt;
 &lt;h2 id=&#34;附录&#34;&gt;附录
-&lt;/h2&gt;&lt;h3 id=&#34;参考文献&#34;&gt;参考文献
-&lt;/h3&gt;</description>
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/apache/kyuubi/pull/6387&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;[TRINO] Trino engine improve operation log&lt;/a&gt;&lt;/p&gt;
+</description>
         </item>
         
     </channel>
