@@ -1,5 +1,0 @@
----
-title: "Java"
-description: 
-image: 
----

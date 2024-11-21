@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Categories on MuShui&#39;s Blog</title>
+        <link>https://sanshuil.github.io/categories/</link>
+        <description>Recent content in Categories on MuShui&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Mon, 13 May 2024 11:38:55 +0800</lastBuildDate><atom:link href="https://sanshuil.github.io/categories/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>scala</title>
+        <link>https://sanshuil.github.io/categories/scala/</link>
+        <pubDate>Mon, 13 May 2024 11:38:55 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/categories/scala/</guid>
+        <description>&lt;img src="https://sanshuil.github.io/categories/scala/scala.png" alt="Featured image of post scala" /&gt;</description>
+        </item>
+        <item>
+        <title>kyuubi</title>
+        <link>https://sanshuil.github.io/categories/kyuubi/</link>
+        <pubDate>Wed, 24 Apr 2024 10:36:45 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/categories/kyuubi/</guid>
+        <description>&lt;img src="https://sanshuil.github.io/categories/kyuubi/Kyuubi.png" alt="Featured image of post kyuubi" /&gt;</description>
+        </item>
+        <item>
+        <title>java</title>
+        <link>https://sanshuil.github.io/categories/java/</link>
+        <pubDate>Fri, 19 Apr 2024 10:24:07 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/categories/java/</guid>
+        <description>&lt;img src="https://sanshuil.github.io/categories/java/Java_logo.png" alt="Featured image of post java" /&gt;</description>
+        </item>
+        
+    </channel>
+</rss>

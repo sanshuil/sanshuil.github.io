@@ -1,5 +1,0 @@
----
-title: "Scala"
-description: 
-image: 
----

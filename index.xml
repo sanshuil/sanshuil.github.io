@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>MuShui&#39;s Blog</title>
+        <link>https://sanshuil.github.io/</link>
+        <description>Recent content on MuShui&#39;s Blog</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Mon, 09 Sep 2024 11:12:15 +0800</lastBuildDate><atom:link href="https://sanshuil.github.io/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Executor_oom</title>
+        <link>https://sanshuil.github.io/executor_oom/</link>
+        <pubDate>Mon, 09 Sep 2024 11:12:15 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/executor_oom/</guid>
+        <description>&lt;img src="https://sanshuil.github.io/cover.png" alt="Featured image of post Executor_oom" /&gt;&lt;h2 id=&#34;task-failed&#34;&gt;task failed
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; taskEnd&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SparkListenerTaskEnd&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        listener&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;onTaskEnd&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;taskEnd&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;task failed reson&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;oom
+避免调度到之前申请的executor，需要重新申请新的大内存executor
+（维护一个单独的executor集合）&lt;/li&gt;
+&lt;li&gt;其他失败原因，能够解决&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;orgapachesparkresourceresourceprofilegetresourcesforclustermanager&#34;&gt;org.apache.spark.resource.ResourceProfile#getResourcesForClusterManager
+&lt;/h2&gt;&lt;p&gt;获取executor 资源&lt;/p&gt;
+&lt;h2 id=&#34;附录&#34;&gt;附录
+&lt;/h2&gt;&lt;h3 id=&#34;参考文献&#34;&gt;参考文献
+&lt;/h3&gt;</description>
+        </item>
+        <item>
+        <title>Toomanyfile</title>
+        <link>https://sanshuil.github.io/post/toomanyfile/</link>
+        <pubDate>Mon, 12 Aug 2024 14:55:49 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/post/toomanyfile/</guid>
+        <description>&lt;img src="https://sanshuil.github.io/cover.png" alt="Featured image of post Toomanyfile" /&gt;&lt;h3 id=&#34;kyuubi-异常&#34;&gt;kyuubi 异常
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;8月10日 22:43:06   1190188 server 监控异常&lt;/p&gt;
+&lt;p&gt;查看日志，连接vms172729异常&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;发现机器日志大量输出Too many open files 日志&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;24/08/10 23:15:52,016 [KyuubiTBinaryFrontend: Thread-31] WARN TThreadPoolServer: Transport error occurred during acceptance of message.
+org.apache.thrift.transport.TTransportException: java.net.SocketException: Too many open files (Accept failed)
+	at org.apache.thrift.transport.TServerSocket.acceptImpl(TServerSocket.java:134) ~[libthrift-0.9.3.jar:0.9.3]
+	at org.apache.thrift.transport.TServerSocket.acceptImpl(TServerSocket.java:35) ~[libthrift-0.9.3.jar:0.9.3]
+	at org.apache.thrift.transport.TServerTransport.accept(TServerTransport.java:60) ~[libthrift-0.9.3.jar:0.9.3]
+	at org.apache.thrift.server.TThreadPoolServer.serve(TThreadPoolServer.java:162) ~[libthrift-0.9.3.jar:0.9.3]
+	at org.apache.kyuubi.service.TBinaryFrontendService.$anonfun$run$2(TBinaryFrontendService.scala:102) ~[kyuubi-common_2.12-1.6.1-incubating.jar:1.6.1-incubating]
+	at org.apache.kyuubi.service.TBinaryFrontendService.$anonfun$run$2$adapted(TBinaryFrontendService.scala:102) ~[kyuubi-common_2.12-1.6.1-incubating.jar:1.6.1-incubating]
+	at scala.Option.foreach(Option.scala:407) ~[scala-library-2.12.15.jar:?]
+	at org.apache.kyuubi.service.TBinaryFrontendService.run(TBinaryFrontendService.scala:102) ~[kyuubi-common_2.12-1.6.1-incubating.jar:1.6.1-incubating]
+	at java.lang.Thread.run(Thread.java:745) ~[?:1.8.0_121]
+Caused by: java.net.SocketException: Too many open files (Accept failed)
+	at java.net.PlainSocketImpl.socketAccept(Native Method) ~[?:1.8.0_121]
+	at java.net.AbstractPlainSocketImpl.accept(AbstractPlainSocketImpl.java:409) ~[?:1.8.0_121]
+	at java.net.ServerSocket.implAccept(ServerSocket.java:545) ~[?:1.8.0_121]
+	at java.net.ServerSocket.accept(ServerSocket.java:513) ~[?:1.8.0_121]
+	at org.apache.thrift.transport.TServerSocket.acceptImpl(TServerSocket.java:129) ~[libthrift-0.9.3.jar:0.9.3]
+	... 8 more
+&lt;/code&gt;&lt;/pre&gt;&lt;ul&gt;
+&lt;li&gt;手动重启后恢复&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;排查&#34;&gt;排查
+&lt;/h3&gt;&lt;p&gt;机器残留大量 &lt;code&gt;server_operation_logs&lt;/code&gt;，查看日志是同一user提交大量相似sql，&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/image-9.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/image-10.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;用户debug job调用router artnova 执行大量sql查询，kill后server 恢复&lt;/p&gt;
+&lt;p&gt;kyuubi会在session close 后删除 operation log，由于这个job 同时开了多个session，每个session执行大量的sql，使得server open文件数过多，存在大量&lt;code&gt;server_operation_logs&lt;/code&gt;，最终异常&lt;/p&gt;
+&lt;h3 id=&#34;复现&#34;&gt;复现
+&lt;/h3&gt;&lt;p&gt;构造多个session，每个执行大量sql&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; java.sql._
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; url &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;jdbc:hive2://hive-zk1.hadoop.ctripcorp.com,hive-zk2.hadoop.ctripcorp.com,hive-zk3.hadoop.ctripcorp.com/default;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=kyuubi_adhoc_test_16#kyuubi.engine.type=SPARK_SQL&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; open &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;DriverManager&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;getConnection&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;url&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; open1 &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;DriverManager&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;getConnection&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;url&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; open2 &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;DriverManager&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;getConnection&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;url&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; open3 &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;DriverManager&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;getConnection&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;url&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; open4 &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;DriverManager&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;getConnection&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;url&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; to &lt;span style=&#34;color:#ae81ff&#34;&gt;20000&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;map&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt; a &lt;span style=&#34;color:#66d9ef&#34;&gt;=&amp;gt;&lt;/span&gt; open&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;createStatement&lt;span style=&#34;color:#f92672&#34;&gt;().&lt;/span&gt;executeQuery&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;s&amp;#34;select &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$a&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         open1&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;createStatement&lt;span style=&#34;color:#f92672&#34;&gt;().&lt;/span&gt;executeQuery&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;s&amp;#34;select &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$a&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         open2&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;createStatement&lt;span style=&#34;color:#f92672&#34;&gt;().&lt;/span&gt;executeQuery&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;s&amp;#34;select &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$a&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         open3&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;createStatement&lt;span style=&#34;color:#f92672&#34;&gt;().&lt;/span&gt;executeQuery&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;s&amp;#34;select &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$a&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;         open4&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;createStatement&lt;span style=&#34;color:#f92672&#34;&gt;().&lt;/span&gt;executeQuery&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;s&amp;#34;select &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;$a&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;server 复现 &lt;code&gt;[hive@VMS174752 kyuubi]&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/image-11.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;后续&#34;&gt;后续
+&lt;/h3&gt;&lt;ul&gt;
+&lt;li&gt;完善zeus 监控 kyuubi server job，从zk获取server node，遍历进行查询，查询超时&lt;/li&gt;
+&lt;li&gt;限制单个session 执行sql最大数量&lt;/li&gt;
+&lt;li&gt;支持operation log 关闭&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;附录&#34;&gt;附录
+&lt;/h2&gt;&lt;h3 id=&#34;参考文献&#34;&gt;参考文献
+&lt;/h3&gt;</description>
+        </item>
+        <item>
+        <title>Bhj</title>
+        <link>https://sanshuil.github.io/post/bhj/</link>
+        <pubDate>Thu, 08 Aug 2024 11:09:53 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/post/bhj/</guid>
+        <description>&lt;img src="https://sanshuil.github.io/cover.png" alt="Featured image of post Bhj" /&gt;&lt;h3 id=&#34;job-耗时异常&#34;&gt;job 耗时异常
+&lt;/h3&gt;&lt;p&gt;0807 job 耗时异常
+&lt;img src=&#34;https://sanshuil.github.io/image.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;查看执行计划，卡在bhj join，有长尾task，部分task 耗时较长&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/image-1.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;对比之前job，执行计划都为bhj，但是task数量比较少，&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;耗时异常job  &lt;code&gt;application_1716531657697_9775710&lt;/code&gt;
+&lt;img src=&#34;https://sanshuil.github.io/image-5.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;li&gt;正常job   &lt;code&gt;application_1716531657697_9665729&lt;/code&gt;
+&lt;img src=&#34;https://sanshuil.github.io/image-4.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;对比bhj执行计划异常job多了一次shuffle read&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/image-3.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;测试机器 重跑sql，发现执行计划为smj，耗时正常&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/image-2.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;对比spark conf，zeus job 配置了&lt;code&gt;spark.sql.adaptive.autoBroadcastJoinThreshold&lt;/code&gt;参数&lt;/p&gt;
+&lt;h3 id=&#34;aqe-bhj-优化&#34;&gt;aqe bhj 优化
+&lt;/h3&gt;&lt;p&gt;aqe 参数&lt;/p&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;spark.sql.adaptive.autoBroadcastJoinThreshold
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在aqe开启时生效，可以根据表run time stats动态选择是否使用bhj&lt;/p&gt;
+&lt;p&gt;spark3之前做过优化，计算stats时候会进行裁剪优化&lt;a class=&#34;link&#34; href=&#34;https://git.dev.sh.ctripcorp.com/framework-di/spark/-/issues/309&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;Spark3分区裁剪优化&lt;/a&gt;,
+在这个case，因为表分区大小比&lt;code&gt;spark.sql.autoBroadcastJoinThreshold&lt;/code&gt;大&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/image-8.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;p&gt;所以spark默认使用smj，会使用shuffle exchange read，aqe优化为bhj的时候不会消除这个shuffle read，所以导致并行度降低，速度变慢&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/image-7.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;alt text&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;h3 id=&#34;解决方案&#34;&gt;解决方案
+&lt;/h3&gt;&lt;p&gt;因为job使用bhj也没有oom，调整&lt;code&gt;spark.sql.autoBroadcastJoinThreshold&lt;/code&gt;参数，让job 初始计划使用bhj，避免shuffle read&lt;/p&gt;
+&lt;p&gt;输出smj -&amp;gt; bhj 的日志，&lt;/p&gt;
+&lt;h2 id=&#34;附录&#34;&gt;附录
+&lt;/h2&gt;&lt;!-- raw HTML omitted --&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sql&#34; data-lang=&#34;sql&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;select&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    a.createtime
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , a.&lt;span style=&#34;color:#66d9ef&#34;&gt;version&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , a.hotelid
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , a.masterhotelid
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , a.roomid
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , a.effectdate
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , a.startdate
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , a.enddate
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , a.canoverflow
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , a.reservetime
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(a.restorable &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;T&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(a.restorable &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;false&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;F&amp;#39;&lt;/span&gt;,a.restorable)) &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; restorable
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(a.freesale &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;true&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;T&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt;(a.freesale &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;false&amp;#39;&lt;/span&gt;,&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;F&amp;#39;&lt;/span&gt;,a.freesale)) &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; freesale
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , a.isdel_htl
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , a.lst_upd_time
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , a.data_src
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , a.datachangelasttime
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    , a.inland
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;from&lt;/span&gt; dwhtl.edw_prd_room_quantitypolicy a 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;left&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;join&lt;/span&gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;(
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;select&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;distinct&lt;/span&gt; createtime, &lt;span style=&#34;color:#66d9ef&#34;&gt;version&lt;/span&gt;, masterhotelid, hotelid, isdel_htl
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;from&lt;/span&gt; dwhtl.edw_prd_room_quantitypolicy_base b 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt; d &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2024-08-07&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;) b 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;on&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;cast&lt;/span&gt;(a.hotelid &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; string)&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;cast&lt;/span&gt;(b.hotelid &lt;span style=&#34;color:#66d9ef&#34;&gt;as&lt;/span&gt; string)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;where&lt;/span&gt; a.d &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2024-08-06&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;and&lt;/span&gt; a.hotelid&lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;and&lt;/span&gt; a.effectdate &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;2024-08-06&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;and&lt;/span&gt; ((b.&lt;span style=&#34;color:#66d9ef&#34;&gt;version&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;and&lt;/span&gt; a.&lt;span style=&#34;color:#66d9ef&#34;&gt;version&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;and&lt;/span&gt; concat(a.&lt;span style=&#34;color:#66d9ef&#34;&gt;version&lt;/span&gt;,a.createtime) &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; concat(b.&lt;span style=&#34;color:#66d9ef&#34;&gt;version&lt;/span&gt;,b.createtime))
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;or&lt;/span&gt; (b.&lt;span style=&#34;color:#66d9ef&#34;&gt;version&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;not&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;and&lt;/span&gt; a.&lt;span style=&#34;color:#66d9ef&#34;&gt;version&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;is&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;and&lt;/span&gt; a.createtime &lt;span style=&#34;color:#f92672&#34;&gt;&amp;gt;&lt;/span&gt; b.createtime) ) 
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;!-- raw HTML omitted --&gt;
+</description>
+        </item>
+        <item>
+        <title>Zookeeper</title>
+        <link>https://sanshuil.github.io/post/zookeeper/</link>
+        <pubDate>Wed, 26 Jun 2024 14:09:37 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/post/zookeeper/</guid>
+        <description>&lt;img src="https://sanshuil.github.io/cover.png" alt="Featured image of post Zookeeper" /&gt;&lt;h3 id=&#34;zookeeper-session&#34;&gt;zookeeper session
+&lt;/h3&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-log&#34; data-lang=&#34;log&#34;&gt;
+#  kyuubi 建立 session
+24/06/19 14:55:35,984 [main-SendThread(hive-zk3.hadoop.ctripcorp.com:2181)] INFO ClientCnxn: Session establishment complete on server hive-zk3.hadoop.ctripcorp.com/10.63.66.150:2181, sessionid = 0xff902365d9b70e63, negotiated timeout = 60000
+
+# session 被close
+24/06/25 19:56:12,970 [main-SendThread(hive-zk3.hadoop.ctripcorp.com:2181)] INFO ClientCnxn: Unable to read additional data from server sessionid 0xff902365d9b70e63, likely server has closed socket, closing socket connection and attempting reconnect
+24/06/25 19:56:12,979 [main-EventThread] WARN ZookeeperDiscoveryClient: This Kyuubi instance vms174752.hadoop.sh5.ctripcorp.com:11119 (znode /kyuubi_adhoc_test_appid/serviceUri=vms174752.hadoop.sh5.ctripcorp.com:11119;version=1.6.1-incubating;sequence=0000000006) is now de-registered from ZooKeeper. The server will be shut down after the last client session completes.
+24/06/25 19:56:13,301 [main-SendThread(hive-zk1.hadoop.ctripcorp.com:2181)] INFO ClientCnxn: Opening socket connection to server hive-zk1.hadoop.ctripcorp.com/10.63.66.148:2181. Will not attempt to authenticate using SASL (unknown error)
+24/06/25 19:56:13,302 [main-SendThread(hive-zk1.hadoop.ctripcorp.com:2181)] INFO ClientCnxn: Socket connection established to hive-zk1.hadoop.ctripcorp.com/10.63.66.148:2181, initiating session
+24/06/25 19:56:13,303 [main-SendThread(hive-zk1.hadoop.ctripcorp.com:2181)] WARN ClientCnxn: Unable to reconnect to ZooKeeper service, session 0xff902365d9b70e63 has expired
+24/06/25 19:56:13,303 [main-SendThread(hive-zk1.hadoop.ctripcorp.com:2181)] INFO ClientCnxn: Unable to reconnect to ZooKeeper service, session 0xff902365d9b70e63 has expired, closing socket connection
+24/06/25 19:56:21,079 [main-EventThread] ERROR ZookeeperDiscoveryClient: Failed to close the persistent ephemeral znodenull
+java.io.IOException: org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = Session expired for /kyuubi_adhoc_test_appid/serviceUri=vms174752.hadoop.sh5.ctripcorp.com:11119;version=1.6.1-incubating;sequence=0000000006
+	at org.apache.curator.framework.recipes.nodes.PersistentNode.close(PersistentNode.java:296) ~[curator-recipes-2.12.0.jar:?]
+	at org.apache.kyuubi.ha.client.zookeeper.ZookeeperDiscoveryClient.deregisterService(ZookeeperDiscoveryClient.scala:255) ~[kyuubi-ha_2.12-1.6.1-incubating.jar:1.6.1-incubating]
+	at org.apache.kyuubi.ha.client.zookeeper.ZookeeperDiscoveryClient$DeRegisterWatcher.process(ZookeeperDiscoveryClient.scala:417) ~[kyuubi-ha_2.12-1.6.1-incubating.jar:1.6.1-incubating]
+	at org.apache.curator.framework.imps.NamespaceWatcher.process(NamespaceWatcher.java:62) ~[curator-framework-2.12.0.jar:?]
+	at org.apache.zookeeper.ClientCnxn$EventThread.processEvent(ClientCnxn.java:533) ~[zookeeper-3.4.14.jar:3.4.14-4c25d480e66aadd371de8bd2fd8da255ac140bcf]
+	at org.apache.zookeeper.ClientCnxn$EventThread.run(ClientCnxn.java:508) ~[zookeeper-3.4.14.jar:3.4.14-4c25d480e66aadd371de8bd2fd8da255ac140bcf]
+Caused by: org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = Session expired for /kyuubi_adhoc_test_appid/serviceUri=vms174752.hadoop.sh5.ctripcorp.com:11119;version=1.6.1-incubating;sequence=0000000006
+	at org.apache.zookeeper.KeeperException.create(KeeperException.java:130) ~[zookeeper-3.4.14.jar:3.4.14-4c25d480e66aadd371de8bd2fd8da255ac140bcf]
+	at org.apache.zookeeper.KeeperException.create(KeeperException.java:54) ~[zookeeper-3.4.14.jar:3.4.14-4c25d480e66aadd371de8bd2fd8da255ac140bcf]
+	at org.apache.zookeeper.ZooKeeper.delete(ZooKeeper.java:882) ~[zookeeper-3.4.14.jar:3.4.14-4c25d480e66aadd371de8bd2fd8da255ac140bcf]
+	at org.apache.curator.framework.imps.DeleteBuilderImpl$5.call(DeleteBuilderImpl.java:250) ~[curator-framework-2.12.0.jar:?]
+	at org.apache.curator.framework.imps.DeleteBuilderImpl$5.call(DeleteBuilderImpl.java:244) ~[curator-framework-2.12.0.jar:?]
+	at org.apache.curator.RetryLoop.callWithRetry(RetryLoop.java:109) ~[curator-client-2.12.0.jar:?]
+	at org.apache.curator.framework.imps.DeleteBuilderImpl.pathInForeground(DeleteBuilderImpl.java:241) ~[curator-framework-2.12.0.jar:?]
+	at org.apache.curator.framework.imps.DeleteBuilderImpl.forPath(DeleteBuilderImpl.java:225) ~[curator-framework-2.12.0.jar:?]
+	at org.apache.curator.framework.imps.DeleteBuilderImpl.forPath(DeleteBuilderImpl.java:35) ~[curator-framework-2.12.0.jar:?]
+	at org.apache.curator.framework.recipes.nodes.PersistentNode.deleteNode(PersistentNode.java:347) ~[curator-recipes-2.12.0.jar:?]
+	at org.apache.curator.framework.recipes.nodes.PersistentNode.close(PersistentNode.java:291) ~[curator-recipes-2.12.0.jar:?]
+	... 5 more
+
+### zk 日志
+2024-06-25 19:56:12,968 [myid:3] - INFO  [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@494] - Processed session termination for sessionid: 0xff902365d9b70e63
+2024-06-25 19:56:12,969 [myid:3] - INFO  [CommitProcessor:3:NIOServerCnxn@1001] - Closed socket connection for client /10.63.0.235:47752 which had sessionid 0xff902365d9b70e63
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;附录&#34;&gt;附录
+&lt;/h2&gt;&lt;h3 id=&#34;参考文献&#34;&gt;参考文献
+&lt;/h3&gt;</description>
+        </item>
+        <item>
+        <title>Scala_leak_mem</title>
+        <link>https://sanshuil.github.io/post/scala_leak_mem/</link>
+        <pubDate>Wed, 22 May 2024 10:08:55 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/post/scala_leak_mem/</guid>
+        <description>&lt;img src="https://sanshuil.github.io/cover.png" alt="Featured image of post Scala_leak_mem" /&gt;&lt;p&gt;According to the Scala doc a Stream is memoized only as long as something holds on to the head. Using def is one way to avoid that. So the real question is: Does Stream.iterate()() hold on to its head if the only thing returned is the final iteration? (Which, BTW, can be directly indexed rather than take(n).last).&lt;/p&gt;
+&lt;h2 id=&#34;附录&#34;&gt;附录
+&lt;/h2&gt;&lt;h3 id=&#34;参考&#34;&gt;参考
+&lt;/h3&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/45649044/scala-stream-iterate-and-memory-management&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://stackoverflow.com/questions/45649044/scala-stream-iterate-and-memory-management&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Scala iter continually</title>
+        <link>https://sanshuil.github.io/post/scala-iter-continually/</link>
+        <pubDate>Mon, 13 May 2024 11:38:55 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/post/scala-iter-continually/</guid>
+        <description>&lt;h3 id=&#34;scala-iter-continually-介绍&#34;&gt;scala iter continually 介绍
+&lt;/h3&gt;&lt;p&gt;在 Scala 中，可以使用Iterator.continually方法来创建一个持续生成元素的迭代器。如果需要对第一个元素进行特殊处理，可以使用zipWithIndex方法来获取元素的索引，并根据索引来判断是否为第一个元素。&lt;/p&gt;
+&lt;p&gt;下面是一个示例代码：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; iterator &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;Iterator&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;continually&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;元素&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;zipWithIndex&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;map &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;element&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; index&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;index &lt;span style=&#34;color:#f92672&#34;&gt;==&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 对第一个元素进行特殊处理
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 返回处理后的结果
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 对其他元素进行正常处理
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;    &lt;span style=&#34;color:#75715e&#34;&gt;// 返回处理后的结果
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;在上面的代码中，Iterator.continually(&amp;ldquo;元素&amp;rdquo;)会创建一个不断重复生成字符串 &amp;ldquo;元素&amp;rdquo; 的迭代器。然后使用zipWithIndex方法获取元素的索引，并根据索引来判断是否为第一个元素。如果是第一个元素，则进行特殊处理；否则进行正常处理。&lt;/p&gt;
+&lt;h3 id=&#34;kyuubi-trino-engine-的处理&#34;&gt;kyuubi trino engine 的处理
+&lt;/h3&gt;&lt;p&gt;trino engine 支持使用流式的方式拉数据&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; execute&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Iterator&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;List&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Any&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]]&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#a6e22e&#34;&gt;Iterator&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;continually &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#a6e22e&#34;&gt;@tailrec&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; getData&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Boolean&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;List&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;List&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Any&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]])&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;trino&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;isRunning&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; data &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; trino&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;currentData&lt;span style=&#34;color:#f92672&#34;&gt;().&lt;/span&gt;getData&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          trino&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;advance&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;data &lt;span style=&#34;color:#f92672&#34;&gt;!=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;null&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;true&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; data&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;asScala&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;toList&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;map&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;_&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;asScala&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;toList&lt;span style=&#34;color:#f92672&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;            getData&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#f92672&#34;&gt;.......&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          updateTrinoContext&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;false&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;List&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;List&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;Any&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]]())&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      getData&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;takeWhile&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;_&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_1&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;flatMap&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;_&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;_2&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#75715e&#34;&gt;//executeStatement increment mode
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;   &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; resultSet &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; trinoStatement&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;execute&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;   iter &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;FetchIterator&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;fromIterator&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;resultSet&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用Iterator.continually方法来创建一个持续获取data的过程，在&lt;code&gt;increment mode&lt;/code&gt;时会流式的拉取数据。takeWhile方法会一直获取数据，直到获取到_.1 为false为止。&lt;/p&gt;
+&lt;p&gt;显式调用hasNext，会阻塞，直到trino client sql语句执行完成。client 可以获取到更多runing info&lt;/p&gt;
+&lt;h2 id=&#34;附录&#34;&gt;附录
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/apache/kyuubi/pull/6387&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;[TRINO] Trino engine improve operation log&lt;/a&gt;&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Kyuubi_engine_adaptive_pool_size</title>
+        <link>https://sanshuil.github.io/post/kyuubi_engine_adaptive_pool_size/</link>
+        <pubDate>Wed, 24 Apr 2024 10:36:45 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/post/kyuubi_engine_adaptive_pool_size/</guid>
+        <description>&lt;h3 id=&#34;kyuubi-engine-pool-select-policy&#34;&gt;kyuubi engine pool select policy
+&lt;/h3&gt;&lt;p&gt;目前有两种策略&lt;code&gt;random&lt;/code&gt; 和 &lt;code&gt;poll&lt;/code&gt; 策略&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ENGINE_POOL_SELECT_POLICY&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;ConfigEntry&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;String&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    buildConf&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;kyuubi.engine.pool.selectPolicy&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;doc&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;The select policy of an engine from the corresponding engine pool engine for &amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;a session. &amp;lt;ul&amp;gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;li&amp;gt;RANDOM - Randomly use the engine in the pool&amp;lt;/li&amp;gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;li&amp;gt;POLLING - Polling use the engine in the pool&amp;lt;/li&amp;gt;&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;+&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt;        &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;/ul&amp;gt;&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;version&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;1.7.0&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;stringConf
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;transformToUpperCase
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;checkValues&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;Set&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;RANDOM&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;POLLING&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;createWithDefault&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;RANDOM&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;根据负载来选择engine&#34;&gt;根据负载来选择engine
+&lt;/h3&gt;&lt;p&gt;针对spark engine， 可以收集到spark engine 当前的task数和opensession数。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首先，spark engine 定时将task、session输出到zk上&lt;/li&gt;
+&lt;li&gt;kyuubi server选择engine时，从zk上获取engine的task数和session数，然后根据负载选择engine&lt;/li&gt;
+&lt;li&gt;设置session阈值，当session数超过阈值时，创建新的engine&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+        </item>
+        <item>
+        <title>HttpClient踩坑</title>
+        <link>https://sanshuil.github.io/post/httpclient%E8%B8%A9%E5%9D%91/</link>
+        <pubDate>Fri, 19 Apr 2024 10:24:07 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/post/httpclient%E8%B8%A9%E5%9D%91/</guid>
+        <description>&lt;h3 id=&#34;apache-httpclent-使用时出现异常&#34;&gt;apache httpClent 使用时出现异常
+&lt;/h3&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Caused by: org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;conn&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ConnectionPoolTimeoutException&lt;/span&gt;: Timeout waiting &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; connection from pool
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;conn&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;PoolingHttpClientConnectionManager&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;leaseConnection&lt;/span&gt;(PoolingHttpClientConnectionManager.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:316) &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;httpclient&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;jar&lt;/span&gt;:4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;conn&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;PoolingHttpClientConnectionManager$1&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;get&lt;/span&gt;(PoolingHttpClientConnectionManager.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:282) &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;httpclient&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;jar&lt;/span&gt;:4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execchain&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;MainClientExec&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execute&lt;/span&gt;(MainClientExec.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:190) &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;httpclient&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;jar&lt;/span&gt;:4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execchain&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ProtocolExec&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execute&lt;/span&gt;(ProtocolExec.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:186) &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;httpclient&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;jar&lt;/span&gt;:4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execchain&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;RetryExec&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execute&lt;/span&gt;(RetryExec.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:89) &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;httpclient&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;jar&lt;/span&gt;:4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execchain&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;RedirectExec&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execute&lt;/span&gt;(RedirectExec.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:110) &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;httpclient&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;jar&lt;/span&gt;:4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;client&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;InternalHttpClient&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;doExecute&lt;/span&gt;(InternalHttpClient.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:185) &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;httpclient&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;jar&lt;/span&gt;:4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;client&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;CloseableHttpClient&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execute&lt;/span&gt;(CloseableHttpClient.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:83) &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;httpclient&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;jar&lt;/span&gt;:4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;client&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;CloseableHttpClient&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execute&lt;/span&gt;(CloseableHttpClient.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:108) &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;httpclient&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;jar&lt;/span&gt;:4.&lt;span style=&#34;color:#a6e22e&#34;&gt;5&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;13&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;kyuubi&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;plugin&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;DscAuthPlugin$&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;doDscAuth&lt;/span&gt;(DscAuthPlugin.&lt;span style=&#34;color:#a6e22e&#34;&gt;scala&lt;/span&gt;:78) &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;kyuubi&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;server_2.&lt;span style=&#34;color:#a6e22e&#34;&gt;12&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;1.&lt;span style=&#34;color:#a6e22e&#34;&gt;6&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;incubating.&lt;span style=&#34;color:#a6e22e&#34;&gt;jar&lt;/span&gt;:1.&lt;span style=&#34;color:#a6e22e&#34;&gt;6&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;-&lt;/span&gt;incubating&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          ... 24 more
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;code&gt;httpClient&lt;/code&gt;的创建时候使用默认的&lt;code&gt;PoolingHttpClientConnectionManager&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;private&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; httpClient &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;HttpClientBuilder&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;create&lt;span style=&#34;color:#f92672&#34;&gt;().&lt;/span&gt;setDefaultRequestConfig&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;requestConfig&lt;span style=&#34;color:#f92672&#34;&gt;).&lt;/span&gt;build&lt;span style=&#34;color:#f92672&#34;&gt;()&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;http&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;impl&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;conn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;PoolingHttpClientConnectionManager&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;#&lt;/span&gt;setDefaultMaxPerRoute  &lt;span style=&#34;color:#75715e&#34;&gt;//default value 2
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;&lt;/span&gt;org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;http&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;impl&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;conn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;PoolingHttpClientConnectionManager&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;#&lt;/span&gt;getMaxPerRoute
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;PoolingHttpClientConnectionManager的配置中有两个最大连接数量，分别控制着总的最大连接数量和每个route的最大连接数量，最大路由连接数MaxPerRoute默认为2，总连接数量MaxTotal默认为20。每次新来一个请求，如果连接池中已经存在相同route并且可用的connection，连接池就会直接复用这个connection，当不存在route相同的connection，就会新建一个connection为之服务；如果连接池已满，则请求会等待直到被服务或者超时。每次读取&lt;code&gt;response&lt;/code&gt;会释放connection&lt;/p&gt;
+&lt;p&gt;消费resp，此时会close，release conn&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execchain&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ConnectionHolder&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;releaseConnection&lt;/span&gt;(ConnectionHolder.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:120)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execchain&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ResponseEntityProxy&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;releaseConnection&lt;/span&gt;(ResponseEntityProxy.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:76)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;impl&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;execchain&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;ResponseEntityProxy&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;streamClosed&lt;/span&gt;(ResponseEntityProxy.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:145)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;conn&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;EofSensorInputStream&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;checkClose&lt;/span&gt;(EofSensorInputStream.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:228)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;conn&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;EofSensorInputStream&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;close&lt;/span&gt;(EofSensorInputStream.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:172)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;client&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;entity&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;LazyDecompressingInputStream&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;close&lt;/span&gt;(LazyDecompressingInputStream.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:97)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at org.&lt;span style=&#34;color:#a6e22e&#34;&gt;apache&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;http&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;util&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;EntityUtils&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;consume&lt;/span&gt;(EntityUtils.&lt;span style=&#34;color:#a6e22e&#34;&gt;java&lt;/span&gt;:90)
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;正常情况下，每个connection会在连接后释放，但是对&lt;code&gt;dsc&lt;/code&gt; 鉴权处理有问题，当code不为&lt;code&gt;200&lt;/code&gt;时，未消费response&lt;/p&gt;
+&lt;p&gt;code 为&lt;code&gt;200&lt;/code&gt;时，使用jsckson处理entity，会close response&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; content &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; objectMapper&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;readTree&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;response&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;getEntity&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;getContent&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;          
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;at org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;http&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;impl&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;execchain&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ConnectionHolder&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;releaseConnection&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ConnectionHolder&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;java&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;120&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;http&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;impl&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;execchain&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ResponseEntityProxy&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;releaseConnection&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ResponseEntityProxy&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;java&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;76&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;http&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;impl&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;execchain&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ResponseEntityProxy&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;streamClosed&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ResponseEntityProxy&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;java&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;145&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;http&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;conn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;EofSensorInputStream&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;checkClose&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;EofSensorInputStream&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;java&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;228&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;http&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;conn&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;EofSensorInputStream&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;close&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;EofSensorInputStream&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;java&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;172&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at java&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;util&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;zip&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;InflaterInputStream&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;close&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;InflaterInputStream&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;java&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;227&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at java&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;util&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;zip&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;GZIPInputStream&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;close&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;GZIPInputStream&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;java&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;136&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;http&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;client&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;entity&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;LazyDecompressingInputStream&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;close&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;LazyDecompressingInputStream&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;java&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;94&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at com&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;fasterxml&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;jackson&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;core&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;json&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;UTF8StreamJsonParser&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;_closeInput&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;UTF8StreamJsonParser&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;java&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;242&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at com&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;fasterxml&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;jackson&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;core&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;base&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ParserBase&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;close&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ParserBase&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;java&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;347&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at com&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;fasterxml&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;jackson&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;databind&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ObjectMapper&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;_readMapAndClose&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ObjectMapper&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;java&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;2994&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;	at com&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;fasterxml&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;jackson&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;databind&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ObjectMapper&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;readTree&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ObjectMapper&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;java&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1737&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;code不为&lt;code&gt;200&lt;/code&gt;时抛出异常，response 未close&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;24&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;01&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;/&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;17&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;03&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;08&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;099&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;KyuubiTBinaryFrontendHandler-Pool:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Thread-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;8956845&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;ERROR&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;KyuubiTBinaryFrontendService&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Error&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;executing&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;statement:&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kyuubi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;KyuubiException&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;Do&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;dsc&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;auth&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;failed&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;,&lt;/span&gt; http code&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;504&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        &lt;span style=&#34;color:#66d9ef&#34;&gt;at&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;org.apache.kyuubi.plugin.DscAuthPlugin$.doDscAuth&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;DscAuthPlugin.scala:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;89&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;~&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;kyuubi-server_2.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;12&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;6&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-incubating.jar:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;6&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-incubating&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        at org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kyuubi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;operation&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ExecuteStatement&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;beforeRun&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;ExecuteStatement&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;scala&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;60&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;kyuubi-server_2.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;12&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;6&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-incubating.jar:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;6&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-incubating&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        at org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kyuubi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;operation&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;AbstractOperation&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;run&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;AbstractOperation&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;scala&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;162&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;kyuubi-common_2.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;12&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;6&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-incubating.jar:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;6&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-incubating&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        at org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kyuubi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;session&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;AbstractSession&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;runOperation&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;AbstractSession&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;scala&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;99&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;kyuubi-common_2.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;12&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;6&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-incubating.jar:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;6&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-incubating&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        at org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kyuubi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;session&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;KyuubiSessionImpl&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;runOperation&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;KyuubiSessionImpl&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;scala&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;191&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;kyuubi-server_2.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;12&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;6&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-incubating.jar:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;6&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-incubating&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        at org&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;apache&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;kyuubi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;session&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;AbstractSession&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;$anonfun$executeStatement$1&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;AbstractSession&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;scala&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;129&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;~[&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;kyuubi-common_2.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;12&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;6&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-incubating.jar:&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;6&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;1&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;-incubatin&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;查询日志，2次504 code，connection pool 被占满，后续连接抛出异常&lt;/p&gt;
+&lt;p&gt;验证，未消费Resp，http 请求失败&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#66d9ef&#34;&gt;public&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;static&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;void&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;main&lt;/span&gt;(String&lt;span style=&#34;color:#f92672&#34;&gt;[]&lt;/span&gt; args) &lt;span style=&#34;color:#66d9ef&#34;&gt;throws&lt;/span&gt; IOException, InterruptedException {
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    CloseableHttpClient httpclient &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; HttpClients.&lt;span style=&#34;color:#a6e22e&#34;&gt;createDefault&lt;/span&gt;();
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    HttpGet httpGet &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;new&lt;/span&gt; HttpGet(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;https://www.baidu.com&amp;#34;&lt;/span&gt;);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    CloseableHttpResponse response1 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; httpclient.&lt;span style=&#34;color:#a6e22e&#34;&gt;execute&lt;/span&gt;(httpGet);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    System.&lt;span style=&#34;color:#a6e22e&#34;&gt;out&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;println&lt;/span&gt;(response1.&lt;span style=&#34;color:#a6e22e&#34;&gt;getStatusLine&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    CloseableHttpResponse response2 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; httpclient.&lt;span style=&#34;color:#a6e22e&#34;&gt;execute&lt;/span&gt;(httpGet);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    System.&lt;span style=&#34;color:#a6e22e&#34;&gt;out&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;println&lt;/span&gt;(response2.&lt;span style=&#34;color:#a6e22e&#34;&gt;getStatusLine&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    CloseableHttpResponse response3 &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; httpclient.&lt;span style=&#34;color:#a6e22e&#34;&gt;execute&lt;/span&gt;(httpGet);
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    System.&lt;span style=&#34;color:#a6e22e&#34;&gt;out&lt;/span&gt;.&lt;span style=&#34;color:#a6e22e&#34;&gt;println&lt;/span&gt;(response3.&lt;span style=&#34;color:#a6e22e&#34;&gt;getStatusLine&lt;/span&gt;());
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  }
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;使用httpClient时，最好每次消费Response， 最后 close response&lt;/p&gt;
+&lt;h3 id=&#34;ref&#34;&gt;REF
+&lt;/h3&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://hc.apache.org/httpcomponents-client-4.5.x/quickstart.html&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://hc.apache.org/httpcomponents-client-4.5.x/quickstart.html&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;// The underlying HTTP connection is still held by the response object // to allow the response content to be streamed directly from the network socket. // In order to ensure correct deallocation of system resources // the user MUST call CloseableHttpResponse#close() from a finally clause. // Please note that if response content is not fully consumed the underlying // connection cannot be safely re-used and will be shut down and discarded // by the connection manager.&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        <item>
+        <title>Archives</title>
+        <link>https://sanshuil.github.io/page/archives/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://sanshuil.github.io/page/archives/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Java</title>
+        <link>https://sanshuil.github.io/tags/java/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://sanshuil.github.io/tags/java/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Links</title>
+        <link>https://sanshuil.github.io/page/links/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://sanshuil.github.io/page/links/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>MuShui&#39;s Blog</title>
+        <link>https://sanshuil.github.io/page/about/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://sanshuil.github.io/page/about/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Scala</title>
+        <link>https://sanshuil.github.io/tags/scala/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://sanshuil.github.io/tags/scala/</guid>
+        <description></description>
+        </item>
+        <item>
+        <title>Search</title>
+        <link>https://sanshuil.github.io/page/search/</link>
+        <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+        
+        <guid>https://sanshuil.github.io/page/search/</guid>
+        <description></description>
+        </item>
+        
+    </channel>
+</rss>
