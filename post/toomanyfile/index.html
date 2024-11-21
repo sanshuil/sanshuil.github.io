@@ -6,7 +6,8 @@
 
 <link rel='canonical' href='https://sanshuil.github.io/post/toomanyfile/'>
 
-<link rel="stylesheet" href="/scss/style.scss"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta property='og:title' content="Toomanyfile">
+<link rel="stylesheet" href="/scss/style.scss"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<meta property='og:title' content="Toomanyfile">
 <meta property='og:description' content="kyuubi 异常 8月10日 22:43:06 1190188 server 监控异常\n查看日志，连接vms172729异常\n发现机器日志大量输出Too many open files 日志\n24/08/10 23:15:52,016 [KyuubiTBinaryFrontend: Thread-31] WARN TThreadPoolServer: Transport error occurred during acceptance of message. org.apache.thrift.transport.TTransportException: java.net.SocketException: Too many open files (Accept failed) at org.apache.thrift.transport.TServerSocket.acceptImpl(TServerSocket.java:134) ~[libthrift-0.9.3.jar:0.9.3] at org.apache.thrift.transport.TServerSocket.acceptImpl(TServerSocket.java:35) ~[libthrift-0.9.3.jar:0.9.3] at org.apache.thrift.transport.TServerTransport.accept(TServerTransport.java:60) ~[libthrift-0.9.3.jar:0.9.3] at org.apache.thrift.server.TThreadPoolServer.serve(TThreadPoolServer.java:162) ~[libthrift-0.9.3.jar:0.9.3] at org.apache.kyuubi.service.TBinaryFrontendService.$anonfun$run$2(TBinaryFrontendService.scala:102) ~[kyuubi-common_2.12-1.6.1-incubating.jar:1.6.1-incubating] at org.apache.kyuubi.service.TBinaryFrontendService.$anonfun$run$2$adapted(TBinaryFrontendService.scala:102) ~[kyuubi-common_2.12-1.6.1-incubating.jar:1.6.1-incubating] at scala.Option.foreach(Option.scala:407) ~[scala-library-2.12.15.jar:?] at org.apache.kyuubi.service.TBinaryFrontendService.run(TBinaryFrontendService.scala:102) ~[kyuubi-common_2.12-1.6.1-incubating.jar:1.6.1-incubating] at java.lang.Thread.run(Thread.java:745) ~[?:1.8.0_121] Caused by: java.net.SocketException: Too many open files (Accept failed) at java.net.PlainSocketImpl.socketAccept(Native Method) ~[?:1.8.0_121] at java.net.AbstractPlainSocketImpl.accept(AbstractPlainSocketImpl.java:409) ~[?:1.8.0_121] at java.net.ServerSocket.implAccept(ServerSocket.java:545) ~[?:1.8.0_121] at java.net.ServerSocket.accept(ServerSocket.java:513) ~[?:1.8.0_121] at org.apache.thrift.transport.TServerSocket.acceptImpl(TServerSocket.java:129) ~[libthrift-0.9.3.jar:0.9.3] ... 8 more 手动重启后恢复 排查 机器残留大量 server_operation_logs，查看日志是同一user提交大量相似sql，\n">
 <meta property='og:url' content='https://sanshuil.github.io/post/toomanyfile/'>
 <meta property='og:site_name' content='MuShui&#39;s Blog'>
@@ -518,10 +519,6 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
     </section>
     <span id="busuanzi_container_site_pv" style='display:none'> 本站总访问量 <span id="busuanzi_value_site_pv"></span> 次 </span>·
     <span id="busuanzi_container_site_uv" style='display:none'> 总访客数 <span id="busuanzi_value_site_uv"></span> 人</span>
-    <follow_challenge>
-        <feedId>82238155826146304</feedId>
-        <userId>67443583582777344</userId>
-    </follow_challenge>
 </footer>
 
 
