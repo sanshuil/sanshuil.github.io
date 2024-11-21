@@ -6,8 +6,7 @@
 
 <link rel='canonical' href='https://sanshuil.github.io/post/scala_leak_mem/'>
 
-<link rel="stylesheet" href="/scss/style.scss"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<meta property='og:title' content="Scala_leak_mem">
+<link rel="stylesheet" href="/scss/style.scss"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta property='og:title' content="Scala_leak_mem">
 <meta property='og:description' content="According to the Scala doc a Stream is memoized only as long as something holds on to the head. Using def is one way to avoid that. So the real question is: Does Stream.iterate()() hold on to its head if the only thing returned is the final iteration? (Which, BTW, can be directly indexed rather than take(n).last).\n附录 参考 https://stackoverflow.com/questions/45649044/scala-stream-iterate-and-memory-management\n">
 <meta property='og:url' content='https://sanshuil.github.io/post/scala_leak_mem/'>
 <meta property='og:site_name' content='MuShui&#39;s Blog'>
