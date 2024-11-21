@@ -264,71 +264,71 @@
     
     <h3 id="job-耗时异常">job 耗时异常
 </h3><p>0807 job 耗时异常
-<img src="/content/images/image.png"
+<img src="/images/image.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="alt text"
+		alt="alttext"
 	
 	
 ></p>
 <p>查看执行计划，卡在bhj join，有长尾task，部分task 耗时较长</p>
-<p><img src="/content/images/image-1.png"
+<p><img src="/images/image-1.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="alt text"
+		alt="alttext"
 	
 	
 ></p>
 <p>对比之前job，执行计划都为bhj，但是task数量比较少，</p>
 <ul>
 <li>耗时异常job  <code>application_1716531657697_9775710</code>
-<img src="/content/images/image-5.png"
+<img src="/images/image-5.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="alt text"
+		alt="alttext"
 	
 	
 ></li>
 <li>正常job   <code>application_1716531657697_9665729</code>
-<img src="/content/images/image-4.png"
+<img src="/images/image-4.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="alt text"
+		alt="alttext"
 	
 	
 ></li>
 </ul>
 <p>对比bhj执行计划异常job多了一次shuffle read</p>
-<p><img src="/content/images/image-3.png"
+<p><img src="/images/image-3.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="alt text"
+		alt="alttext"
 	
 	
 ></p>
 <p>测试机器 重跑sql，发现执行计划为smj，耗时正常</p>
-<p><img src="/content/images/image-2.png"
+<p><img src="/images/image-2.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="alt text"
+		alt="alttext"
 	
 	
 ></p>
@@ -340,24 +340,24 @@
 <p>spark3之前做过优化，计算stats时候会进行裁剪优化<a class="link" href="https://git.dev.sh.ctripcorp.com/framework-di/spark/-/issues/309"  target="_blank" rel="noopener"
     >Spark3分区裁剪优化</a>,
 在这个case，因为表分区大小比<code>spark.sql.autoBroadcastJoinThreshold</code>大</p>
-<p><img src="/content/images/image-8.png"
+<p><img src="/images/image-8.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="alt text"
+		alt="alttext"
 	
 	
 ></p>
 <p>所以spark默认使用smj，会使用shuffle exchange read，aqe优化为bhj的时候不会消除这个shuffle read，所以导致并行度降低，速度变慢</p>
-<p><img src="/content/images/image-7.png"
+<p><img src="/images/image-7.png"
 	
 	
 	
 	loading="lazy"
 	
-		alt="alt text"
+		alt="alttext"
 	
 	
 ></p>

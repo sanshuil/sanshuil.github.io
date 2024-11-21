@@ -136,71 +136,71 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
         <guid>https://sanshuil.github.io/post/bhj/</guid>
         <description>&lt;h3 id=&#34;job-耗时异常&#34;&gt;job 耗时异常
 &lt;/h3&gt;&lt;p&gt;0807 job 耗时异常
-&lt;img src=&#34;https://sanshuil.github.io/content/images/image.png&#34;
+&lt;img src=&#34;https://sanshuil.github.io/images/image.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;alt text&#34;
+		alt=&#34;alttext&#34;
 	
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;查看执行计划，卡在bhj join，有长尾task，部分task 耗时较长&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/content/images/image-1.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/images/image-1.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;alt text&#34;
+		alt=&#34;alttext&#34;
 	
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;对比之前job，执行计划都为bhj，但是task数量比较少，&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;耗时异常job  &lt;code&gt;application_1716531657697_9775710&lt;/code&gt;
-&lt;img src=&#34;https://sanshuil.github.io/content/images/image-5.png&#34;
+&lt;img src=&#34;https://sanshuil.github.io/images/image-5.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;alt text&#34;
+		alt=&#34;alttext&#34;
 	
 	
 &gt;&lt;/li&gt;
 &lt;li&gt;正常job   &lt;code&gt;application_1716531657697_9665729&lt;/code&gt;
-&lt;img src=&#34;https://sanshuil.github.io/content/images/image-4.png&#34;
+&lt;img src=&#34;https://sanshuil.github.io/images/image-4.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;alt text&#34;
+		alt=&#34;alttext&#34;
 	
 	
 &gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;对比bhj执行计划异常job多了一次shuffle read&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/content/images/image-3.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/images/image-3.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;alt text&#34;
+		alt=&#34;alttext&#34;
 	
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;测试机器 重跑sql，发现执行计划为smj，耗时正常&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/content/images/image-2.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/images/image-2.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;alt text&#34;
+		alt=&#34;alttext&#34;
 	
 	
 &gt;&lt;/p&gt;
@@ -212,24 +212,24 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
 &lt;p&gt;spark3之前做过优化，计算stats时候会进行裁剪优化&lt;a class=&#34;link&#34; href=&#34;https://git.dev.sh.ctripcorp.com/framework-di/spark/-/issues/309&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Spark3分区裁剪优化&lt;/a&gt;,
 在这个case，因为表分区大小比&lt;code&gt;spark.sql.autoBroadcastJoinThreshold&lt;/code&gt;大&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/content/images/image-8.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/images/image-8.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;alt text&#34;
+		alt=&#34;alttext&#34;
 	
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;所以spark默认使用smj，会使用shuffle exchange read，aqe优化为bhj的时候不会消除这个shuffle read，所以导致并行度降低，速度变慢&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/content/images/image-7.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/images/image-7.png&#34;
 	
 	
 	
 	loading=&#34;lazy&#34;
 	
-		alt=&#34;alt text&#34;
+		alt=&#34;alttext&#34;
 	
 	
 &gt;&lt;/p&gt;
