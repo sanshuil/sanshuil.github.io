@@ -544,9 +544,5 @@ Caused by: org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperE
         <description></description>
         </item>
         
-        <follow_challenge>
-            <feedId>82238155826146304</feedId>
-            <userId>67443583582777344</userId>
-        </follow_challenge>
     </channel>
 </rss>
