@@ -3,7 +3,8 @@
     <channel>
         <title>Kyuubi on MuShui&#39;s Blog</title>
         <link>https://sanshuil.github.io/tags/kyuubi/</link>
-        <description>Recent content in Kyuubi on MuShui&#39;s Blog</description>
+        <description>Recent content in Kyuubi on MuShui&#39;s Blog feedId:82238155826146304+userId:67443583582777344
+</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <lastBuildDate>Wed, 24 Apr 2024 10:36:45 +0800</lastBuildDate><atom:link href="https://sanshuil.github.io/tags/kyuubi/index.xml" rel="self" type="application/rss+xml" /><item>
@@ -36,5 +37,10 @@
 </description>
         </item>
         
+
+        <follow_challenge>
+        <feedId>82238155826146304</feedId>
+        <userId>67443583582777344</userId>
+    </follow_challenge>
     </channel>
 </rss>

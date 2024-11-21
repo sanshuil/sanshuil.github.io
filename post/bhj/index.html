@@ -6,14 +6,13 @@
 
 <link rel='canonical' href='https://sanshuil.github.io/post/bhj/'>
 
-<link rel="stylesheet" href="/scss/style.scss"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta property='og:title' content="Bhj">
+<link rel="stylesheet" href="/scss/style.min.0304c6baf04e01a8fe70693791cb744d56a3578a3120a8796cefc66825aa39c7.css"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><meta property='og:title' content="Bhj">
 <meta property='og:description' content="job 耗时异常 0807 job 耗时异常 查看执行计划，卡在bhj join，有长尾task，部分task 耗时较长\n对比之前job，执行计划都为bhj，但是task数量比较少，\n">
 <meta property='og:url' content='https://sanshuil.github.io/post/bhj/'>
 <meta property='og:site_name' content='MuShui&#39;s Blog'>
-<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='' /><meta property='article:published_time' content='2024-08-08T11:09:53&#43;08:00'/><meta property='article:modified_time' content='2024-08-08T11:09:53&#43;08:00'/><meta property='og:image' content='https://sanshuil.github.io/cover.png' />
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:tag' content='' /><meta property='article:published_time' content='2024-08-08T11:09:53&#43;08:00'/><meta property='article:modified_time' content='2024-08-08T11:09:53&#43;08:00'/>
 <meta name="twitter:title" content="Bhj">
-<meta name="twitter:description" content="job 耗时异常 0807 job 耗时异常 查看执行计划，卡在bhj join，有长尾task，部分task 耗时较长\n对比之前job，执行计划都为bhj，但是task数量比较少，\n"><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://sanshuil.github.io/cover.png' />
+<meta name="twitter:description" content="job 耗时异常 0807 job 耗时异常 查看执行计划，卡在bhj join，有长尾task，部分task 耗时较长\n对比之前job，执行计划都为bhj，但是task数量比较少，\n">
       <script async src="https://www.googletagmanager.com/gtag/js?id=G-8C0DQDNSWV"></script>
       <script>
         var doNotTrack = false;
@@ -199,16 +198,8 @@
     
 
             <main class="main full-width">
-    <article class="has-image main-article">
+    <article class="main-article">
     <header class="article-header">
-        <div class="article-image">
-            <a href="/post/bhj/">
-                
-                    <img src="/cover.png" loading="lazy" alt="Featured image of post Bhj" />
-                
-            </a>
-        </div>
-    
 
     <div class="article-details">
     
@@ -273,7 +264,7 @@
     
     <h3 id="job-耗时异常">job 耗时异常
 </h3><p>0807 job 耗时异常
-<img src="/image.png"
+<img src="/content/images/image.png"
 	
 	
 	
@@ -284,7 +275,7 @@
 	
 ></p>
 <p>查看执行计划，卡在bhj join，有长尾task，部分task 耗时较长</p>
-<p><img src="/image-1.png"
+<p><img src="/content/images/image-1.png"
 	
 	
 	
@@ -297,7 +288,7 @@
 <p>对比之前job，执行计划都为bhj，但是task数量比较少，</p>
 <ul>
 <li>耗时异常job  <code>application_1716531657697_9775710</code>
-<img src="/image-5.png"
+<img src="/content/images/image-5.png"
 	
 	
 	
@@ -308,7 +299,7 @@
 	
 ></li>
 <li>正常job   <code>application_1716531657697_9665729</code>
-<img src="/image-4.png"
+<img src="/content/images/image-4.png"
 	
 	
 	
@@ -320,7 +311,7 @@
 ></li>
 </ul>
 <p>对比bhj执行计划异常job多了一次shuffle read</p>
-<p><img src="/image-3.png"
+<p><img src="/content/images/image-3.png"
 	
 	
 	
@@ -331,7 +322,7 @@
 	
 ></p>
 <p>测试机器 重跑sql，发现执行计划为smj，耗时正常</p>
-<p><img src="/image-2.png"
+<p><img src="/content/images/image-2.png"
 	
 	
 	
@@ -349,7 +340,7 @@
 <p>spark3之前做过优化，计算stats时候会进行裁剪优化<a class="link" href="https://git.dev.sh.ctripcorp.com/framework-di/spark/-/issues/309"  target="_blank" rel="noopener"
     >Spark3分区裁剪优化</a>,
 在这个case，因为表分区大小比<code>spark.sql.autoBroadcastJoinThreshold</code>大</p>
-<p><img src="/image-8.png"
+<p><img src="/content/images/image-8.png"
 	
 	
 	
@@ -360,7 +351,7 @@
 	
 ></p>
 <p>所以spark默认使用smj，会使用shuffle exchange read，aqe优化为bhj的时候不会消除这个shuffle read，所以导致并行度降低，速度变慢</p>
-<p><img src="/image-7.png"
+<p><img src="/content/images/image-7.png"
 	
 	
 	
@@ -434,15 +425,9 @@
         <div class="flex article-list--tile">
             
                 
-<article class="has-image">
+<article class="">
     <a href="/post/zookeeper/">
         
-        
-            <div class="article-image">
-                
-                    <img src="/cover.png" loading="lazy" data-key="Zookeeper" data-hash="/cover.png"/>
-                
-            </div>
         
 
         <div class="article-details">
@@ -453,15 +438,9 @@
 
             
                 
-<article class="has-image">
+<article class="">
     <a href="/post/scala_leak_mem/">
         
-        
-            <div class="article-image">
-                
-                    <img src="/cover.png" loading="lazy" data-key="Scala_leak_mem" data-hash="/cover.png"/>
-                
-            </div>
         
 
         <div class="article-details">

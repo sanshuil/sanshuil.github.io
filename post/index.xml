@@ -3,16 +3,39 @@
     <channel>
         <title>Posts on MuShui&#39;s Blog</title>
         <link>https://sanshuil.github.io/post/</link>
-        <description>Recent content in Posts on MuShui&#39;s Blog</description>
+        <description>Recent content in Posts on MuShui&#39;s Blog feedId:82238155826146304+userId:67443583582777344
+</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Mon, 12 Aug 2024 14:55:49 +0800</lastBuildDate><atom:link href="https://sanshuil.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 09 Sep 2024 11:12:15 +0800</lastBuildDate><atom:link href="https://sanshuil.github.io/post/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>Executor_oom</title>
+        <link>https://sanshuil.github.io/post/executor_oom/</link>
+        <pubDate>Mon, 09 Sep 2024 11:12:15 +0800</pubDate>
+        
+        <guid>https://sanshuil.github.io/post/executor_oom/</guid>
+        <description>&lt;h2 id=&#34;task-failed&#34;&gt;task failed
+&lt;/h2&gt;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;      &lt;span style=&#34;color:#66d9ef&#34;&gt;case&lt;/span&gt; taskEnd&lt;span style=&#34;color:#66d9ef&#34;&gt;:&lt;/span&gt; &lt;span style=&#34;color:#66d9ef&#34;&gt;SparkListenerTaskEnd&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;        listener&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;onTaskEnd&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;taskEnd&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;task failed reson&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;oom
+避免调度到之前申请的executor，需要重新申请新的大内存executor
+（维护一个单独的executor集合）&lt;/li&gt;
+&lt;li&gt;其他失败原因，能够解决&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;orgapachesparkresourceresourceprofilegetresourcesforclustermanager&#34;&gt;org.apache.spark.resource.ResourceProfile#getResourcesForClusterManager
+&lt;/h2&gt;&lt;p&gt;获取executor 资源&lt;/p&gt;
+&lt;h2 id=&#34;附录&#34;&gt;附录
+&lt;/h2&gt;&lt;h3 id=&#34;参考文献&#34;&gt;参考文献
+&lt;/h3&gt;</description>
+        </item>
+        <item>
         <title>Toomanyfile</title>
         <link>https://sanshuil.github.io/post/toomanyfile/</link>
         <pubDate>Mon, 12 Aug 2024 14:55:49 +0800</pubDate>
         
         <guid>https://sanshuil.github.io/post/toomanyfile/</guid>
-        <description>&lt;img src="https://sanshuil.github.io/cover.png" alt="Featured image of post Toomanyfile" /&gt;&lt;h3 id=&#34;kyuubi-异常&#34;&gt;kyuubi 异常
+        <description>&lt;h3 id=&#34;kyuubi-异常&#34;&gt;kyuubi 异常
 &lt;/h3&gt;&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;8月10日 22:43:06   1190188 server 监控异常&lt;/p&gt;
@@ -111,9 +134,9 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
         <pubDate>Thu, 08 Aug 2024 11:09:53 +0800</pubDate>
         
         <guid>https://sanshuil.github.io/post/bhj/</guid>
-        <description>&lt;img src="https://sanshuil.github.io/cover.png" alt="Featured image of post Bhj" /&gt;&lt;h3 id=&#34;job-耗时异常&#34;&gt;job 耗时异常
+        <description>&lt;h3 id=&#34;job-耗时异常&#34;&gt;job 耗时异常
 &lt;/h3&gt;&lt;p&gt;0807 job 耗时异常
-&lt;img src=&#34;https://sanshuil.github.io/image.png&#34;
+&lt;img src=&#34;https://sanshuil.github.io/content/images/image.png&#34;
 	
 	
 	
@@ -124,7 +147,7 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;查看执行计划，卡在bhj join，有长尾task，部分task 耗时较长&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/image-1.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/content/images/image-1.png&#34;
 	
 	
 	
@@ -137,7 +160,7 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
 &lt;p&gt;对比之前job，执行计划都为bhj，但是task数量比较少，&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;耗时异常job  &lt;code&gt;application_1716531657697_9775710&lt;/code&gt;
-&lt;img src=&#34;https://sanshuil.github.io/image-5.png&#34;
+&lt;img src=&#34;https://sanshuil.github.io/content/images/image-5.png&#34;
 	
 	
 	
@@ -148,7 +171,7 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
 	
 &gt;&lt;/li&gt;
 &lt;li&gt;正常job   &lt;code&gt;application_1716531657697_9665729&lt;/code&gt;
-&lt;img src=&#34;https://sanshuil.github.io/image-4.png&#34;
+&lt;img src=&#34;https://sanshuil.github.io/content/images/image-4.png&#34;
 	
 	
 	
@@ -160,7 +183,7 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
 &gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;对比bhj执行计划异常job多了一次shuffle read&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/image-3.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/content/images/image-3.png&#34;
 	
 	
 	
@@ -171,7 +194,7 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;测试机器 重跑sql，发现执行计划为smj，耗时正常&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/image-2.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/content/images/image-2.png&#34;
 	
 	
 	
@@ -189,7 +212,7 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
 &lt;p&gt;spark3之前做过优化，计算stats时候会进行裁剪优化&lt;a class=&#34;link&#34; href=&#34;https://git.dev.sh.ctripcorp.com/framework-di/spark/-/issues/309&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Spark3分区裁剪优化&lt;/a&gt;,
 在这个case，因为表分区大小比&lt;code&gt;spark.sql.autoBroadcastJoinThreshold&lt;/code&gt;大&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/image-8.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/content/images/image-8.png&#34;
 	
 	
 	
@@ -200,7 +223,7 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
 	
 &gt;&lt;/p&gt;
 &lt;p&gt;所以spark默认使用smj，会使用shuffle exchange read，aqe优化为bhj的时候不会消除这个shuffle read，所以导致并行度降低，速度变慢&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/image-7.png&#34;
+&lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/content/images/image-7.png&#34;
 	
 	
 	
@@ -255,7 +278,7 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
         <pubDate>Wed, 26 Jun 2024 14:09:37 +0800</pubDate>
         
         <guid>https://sanshuil.github.io/post/zookeeper/</guid>
-        <description>&lt;img src="https://sanshuil.github.io/cover.png" alt="Featured image of post Zookeeper" /&gt;&lt;h3 id=&#34;zookeeper-session&#34;&gt;zookeeper session
+        <description>&lt;h3 id=&#34;zookeeper-session&#34;&gt;zookeeper session
 &lt;/h3&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-log&#34; data-lang=&#34;log&#34;&gt;
 #  kyuubi 建立 session
 24/06/19 14:55:35,984 [main-SendThread(hive-zk3.hadoop.ctripcorp.com:2181)] INFO ClientCnxn: Session establishment complete on server hive-zk3.hadoop.ctripcorp.com/10.63.66.150:2181, sessionid = 0xff902365d9b70e63, negotiated timeout = 60000
@@ -302,7 +325,7 @@ Caused by: org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperE
         <pubDate>Wed, 22 May 2024 10:08:55 +0800</pubDate>
         
         <guid>https://sanshuil.github.io/post/scala_leak_mem/</guid>
-        <description>&lt;img src="https://sanshuil.github.io/cover.png" alt="Featured image of post Scala_leak_mem" /&gt;&lt;p&gt;According to the Scala doc a Stream is memoized only as long as something holds on to the head. Using def is one way to avoid that. So the real question is: Does Stream.iterate()() hold on to its head if the only thing returned is the final iteration? (Which, BTW, can be directly indexed rather than take(n).last).&lt;/p&gt;
+        <description>&lt;p&gt;According to the Scala doc a Stream is memoized only as long as something holds on to the head. Using def is one way to avoid that. So the real question is: Does Stream.iterate()() hold on to its head if the only thing returned is the final iteration? (Which, BTW, can be directly indexed rather than take(n).last).&lt;/p&gt;
 &lt;h2 id=&#34;附录&#34;&gt;附录
 &lt;/h2&gt;&lt;h3 id=&#34;参考&#34;&gt;参考
 &lt;/h3&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://stackoverflow.com/questions/45649044/scala-stream-iterate-and-memory-management&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -474,5 +497,10 @@ Caused by: org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperE
 </description>
         </item>
         
+
+        <follow_challenge>
+        <feedId>82238155826146304</feedId>
+        <userId>67443583582777344</userId>
+    </follow_challenge>
     </channel>
 </rss>
