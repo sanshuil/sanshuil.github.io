@@ -31,9 +31,9 @@
         <description>&lt;img src="https://sanshuil.github.io/categories/java/Java_logo.png" alt="Featured image of post java" /&gt;</description>
         </item>
         
-    </channel>
         <follow_challenge>
-        <feedId>82238155826146304</feedId>
-        <userId>67443583582777344</userId>
-    </follow_challenge>
+            <feedId>82238155826146304</feedId>
+            <userId>67443583582777344</userId>
+        </follow_challenge>
+    </channel>
 </rss>
