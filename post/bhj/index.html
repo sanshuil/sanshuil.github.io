@@ -337,7 +337,7 @@
 </h3><p>aqe 参数</p>
 <pre tabindex="0"><code>spark.sql.adaptive.autoBroadcastJoinThreshold
 </code></pre><p>在aqe开启时生效，可以根据表run time stats动态选择是否使用bhj</p>
-<p>spark3之前做过优化，计算stats时候会进行裁剪优化<a class="link" href="https://git.dev.sh.ctripcorp.com/framework-di/spark/-/issues/309"  target="_blank" rel="noopener"
+<p>spark3之前做过优化，计算stats时候会进行裁剪优化<a class="link" href="https://git.dev.sh.****.com/framework-di/spark/-/issues/309"  target="_blank" rel="noopener"
     >Spark3分区裁剪优化</a>,
 在这个case，因为表分区大小比<code>spark.sql.autoBroadcastJoinThreshold</code>大</p>
 <p><img src="/images/image-8.png"

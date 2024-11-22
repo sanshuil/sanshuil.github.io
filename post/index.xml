@@ -93,7 +93,7 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
 &lt;h3 id=&#34;复现&#34;&gt;复现
 &lt;/h3&gt;&lt;p&gt;构造多个session，每个执行大量sql&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-scala&#34; data-lang=&#34;scala&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;import&lt;/span&gt; java.sql._
-&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; url &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;jdbc:hive2://hive-zk1.hadoop.ctripcorp.com,hive-zk2.hadoop.ctripcorp.com,hive-zk3.hadoop.ctripcorp.com/default;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=kyuubi_adhoc_test_16#kyuubi.engine.type=SPARK_SQL&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; url &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;jdbc:hive2://hive-zk1.hadoop.****.com,hive-zk2.hadoop.****.com,hive-zk3.hadoop.****.com/default;serviceDiscoveryMode=zooKeeper;zooKeeperNamespace=kyuubi_adhoc_test_16#kyuubi.engine.type=SPARK_SQL&amp;#34;&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; open &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;DriverManager&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;getConnection&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;url&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;val&lt;/span&gt; open1 &lt;span style=&#34;color:#66d9ef&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;DriverManager&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;getConnection&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;url&amp;#34;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
@@ -209,7 +209,7 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
 &lt;/h3&gt;&lt;p&gt;aqe 参数&lt;/p&gt;
 &lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;spark.sql.adaptive.autoBroadcastJoinThreshold
 &lt;/code&gt;&lt;/pre&gt;&lt;p&gt;在aqe开启时生效，可以根据表run time stats动态选择是否使用bhj&lt;/p&gt;
-&lt;p&gt;spark3之前做过优化，计算stats时候会进行裁剪优化&lt;a class=&#34;link&#34; href=&#34;https://git.dev.sh.ctripcorp.com/framework-di/spark/-/issues/309&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+&lt;p&gt;spark3之前做过优化，计算stats时候会进行裁剪优化&lt;a class=&#34;link&#34; href=&#34;https://git.dev.sh.****.com/framework-di/spark/-/issues/309&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
     &gt;Spark3分区裁剪优化&lt;/a&gt;,
 在这个case，因为表分区大小比&lt;code&gt;spark.sql.autoBroadcastJoinThreshold&lt;/code&gt;大&lt;/p&gt;
 &lt;p&gt;&lt;img src=&#34;https://sanshuil.github.io/images/image-8.png&#34;
@@ -281,24 +281,24 @@ Caused by: java.net.SocketException: Too many open files (Accept failed)
         <description>&lt;h3 id=&#34;zookeeper-session&#34;&gt;zookeeper session
 &lt;/h3&gt;&lt;pre tabindex=&#34;0&#34;&gt;&lt;code class=&#34;language-log&#34; data-lang=&#34;log&#34;&gt;
 #  kyuubi 建立 session
-24/06/19 14:55:35,984 [main-SendThread(hive-zk3.hadoop.ctripcorp.com:2181)] INFO ClientCnxn: Session establishment complete on server hive-zk3.hadoop.ctripcorp.com/10.63.66.150:2181, sessionid = 0xff902365d9b70e63, negotiated timeout = 60000
+24/06/19 14:55:35,984 [main-SendThread(hive-zk3.hadoop.****.com:2181)] INFO ClientCnxn: Session establishment complete on server hive-zk3.hadoop.****.com/10.63.66.150:2181, sessionid = 0xff902365d9b70e63, negotiated timeout = 60000
 
 # session 被close
-24/06/25 19:56:12,970 [main-SendThread(hive-zk3.hadoop.ctripcorp.com:2181)] INFO ClientCnxn: Unable to read additional data from server sessionid 0xff902365d9b70e63, likely server has closed socket, closing socket connection and attempting reconnect
-24/06/25 19:56:12,979 [main-EventThread] WARN ZookeeperDiscoveryClient: This Kyuubi instance vms174752.hadoop.sh5.ctripcorp.com:11119 (znode /kyuubi_adhoc_test_appid/serviceUri=vms174752.hadoop.sh5.ctripcorp.com:11119;version=1.6.1-incubating;sequence=0000000006) is now de-registered from ZooKeeper. The server will be shut down after the last client session completes.
-24/06/25 19:56:13,301 [main-SendThread(hive-zk1.hadoop.ctripcorp.com:2181)] INFO ClientCnxn: Opening socket connection to server hive-zk1.hadoop.ctripcorp.com/10.63.66.148:2181. Will not attempt to authenticate using SASL (unknown error)
-24/06/25 19:56:13,302 [main-SendThread(hive-zk1.hadoop.ctripcorp.com:2181)] INFO ClientCnxn: Socket connection established to hive-zk1.hadoop.ctripcorp.com/10.63.66.148:2181, initiating session
-24/06/25 19:56:13,303 [main-SendThread(hive-zk1.hadoop.ctripcorp.com:2181)] WARN ClientCnxn: Unable to reconnect to ZooKeeper service, session 0xff902365d9b70e63 has expired
-24/06/25 19:56:13,303 [main-SendThread(hive-zk1.hadoop.ctripcorp.com:2181)] INFO ClientCnxn: Unable to reconnect to ZooKeeper service, session 0xff902365d9b70e63 has expired, closing socket connection
+24/06/25 19:56:12,970 [main-SendThread(hive-zk3.hadoop.****.com:2181)] INFO ClientCnxn: Unable to read additional data from server sessionid 0xff902365d9b70e63, likely server has closed socket, closing socket connection and attempting reconnect
+24/06/25 19:56:12,979 [main-EventThread] WARN ZookeeperDiscoveryClient: This Kyuubi instance vms174752.hadoop.sh5.****.com:11119 (znode /kyuubi_adhoc_test_appid/serviceUri=vms174752.hadoop.sh5.****.com:11119;version=1.6.1-incubating;sequence=0000000006) is now de-registered from ZooKeeper. The server will be shut down after the last client session completes.
+24/06/25 19:56:13,301 [main-SendThread(hive-zk1.hadoop.****.com:2181)] INFO ClientCnxn: Opening socket connection to server hive-zk1.hadoop.****.com/10.63.66.148:2181. Will not attempt to authenticate using SASL (unknown error)
+24/06/25 19:56:13,302 [main-SendThread(hive-zk1.hadoop.****.com:2181)] INFO ClientCnxn: Socket connection established to hive-zk1.hadoop.****.com/10.63.66.148:2181, initiating session
+24/06/25 19:56:13,303 [main-SendThread(hive-zk1.hadoop.****.com:2181)] WARN ClientCnxn: Unable to reconnect to ZooKeeper service, session 0xff902365d9b70e63 has expired
+24/06/25 19:56:13,303 [main-SendThread(hive-zk1.hadoop.****.com:2181)] INFO ClientCnxn: Unable to reconnect to ZooKeeper service, session 0xff902365d9b70e63 has expired, closing socket connection
 24/06/25 19:56:21,079 [main-EventThread] ERROR ZookeeperDiscoveryClient: Failed to close the persistent ephemeral znodenull
-java.io.IOException: org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = Session expired for /kyuubi_adhoc_test_appid/serviceUri=vms174752.hadoop.sh5.ctripcorp.com:11119;version=1.6.1-incubating;sequence=0000000006
+java.io.IOException: org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = Session expired for /kyuubi_adhoc_test_appid/serviceUri=vms174752.hadoop.sh5.****.com:11119;version=1.6.1-incubating;sequence=0000000006
 	at org.apache.curator.framework.recipes.nodes.PersistentNode.close(PersistentNode.java:296) ~[curator-recipes-2.12.0.jar:?]
 	at org.apache.kyuubi.ha.client.zookeeper.ZookeeperDiscoveryClient.deregisterService(ZookeeperDiscoveryClient.scala:255) ~[kyuubi-ha_2.12-1.6.1-incubating.jar:1.6.1-incubating]
 	at org.apache.kyuubi.ha.client.zookeeper.ZookeeperDiscoveryClient$DeRegisterWatcher.process(ZookeeperDiscoveryClient.scala:417) ~[kyuubi-ha_2.12-1.6.1-incubating.jar:1.6.1-incubating]
 	at org.apache.curator.framework.imps.NamespaceWatcher.process(NamespaceWatcher.java:62) ~[curator-framework-2.12.0.jar:?]
 	at org.apache.zookeeper.ClientCnxn$EventThread.processEvent(ClientCnxn.java:533) ~[zookeeper-3.4.14.jar:3.4.14-4c25d480e66aadd371de8bd2fd8da255ac140bcf]
 	at org.apache.zookeeper.ClientCnxn$EventThread.run(ClientCnxn.java:508) ~[zookeeper-3.4.14.jar:3.4.14-4c25d480e66aadd371de8bd2fd8da255ac140bcf]
-Caused by: org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = Session expired for /kyuubi_adhoc_test_appid/serviceUri=vms174752.hadoop.sh5.ctripcorp.com:11119;version=1.6.1-incubating;sequence=0000000006
+Caused by: org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperErrorCode = Session expired for /kyuubi_adhoc_test_appid/serviceUri=vms174752.hadoop.sh5.****.com:11119;version=1.6.1-incubating;sequence=0000000006
 	at org.apache.zookeeper.KeeperException.create(KeeperException.java:130) ~[zookeeper-3.4.14.jar:3.4.14-4c25d480e66aadd371de8bd2fd8da255ac140bcf]
 	at org.apache.zookeeper.KeeperException.create(KeeperException.java:54) ~[zookeeper-3.4.14.jar:3.4.14-4c25d480e66aadd371de8bd2fd8da255ac140bcf]
 	at org.apache.zookeeper.ZooKeeper.delete(ZooKeeper.java:882) ~[zookeeper-3.4.14.jar:3.4.14-4c25d480e66aadd371de8bd2fd8da255ac140bcf]
@@ -315,7 +315,14 @@ Caused by: org.apache.zookeeper.KeeperException$SessionExpiredException: KeeperE
 ### zk 日志
 2024-06-25 19:56:12,968 [myid:3] - INFO  [ProcessThread(sid:3 cport:-1)::PrepRequestProcessor@494] - Processed session termination for sessionid: 0xff902365d9b70e63
 2024-06-25 19:56:12,969 [myid:3] - INFO  [CommitProcessor:3:NIOServerCnxn@1001] - Closed socket connection for client /10.63.0.235:47752 which had sessionid 0xff902365d9b70e63
-&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;附录&#34;&gt;附录
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;root-cause&#34;&gt;root cause
+&lt;/h2&gt;&lt;p&gt;client a 连接 zk1 创建 session id 0xff902365d9b70e63&lt;/p&gt;
+&lt;p&gt;client b 连接 zk2 创建相同 session id 0xff902365d9b70e63 并close，zk1 同步close&lt;/p&gt;
+&lt;p&gt;client b 创建的 session 被 zk1 close&lt;/p&gt;
+&lt;h2 id=&#34;相关pr&#34;&gt;相关pr
+&lt;/h2&gt;&lt;p&gt;&lt;a class=&#34;link&#34; href=&#34;https://issues.apache.org/jira/browse/ZOOKEEPER-1622&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://issues.apache.org/jira/browse/ZOOKEEPER-1622&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;附录&#34;&gt;附录
 &lt;/h2&gt;&lt;h3 id=&#34;参考文献&#34;&gt;参考文献
 &lt;/h3&gt;</description>
         </item>
